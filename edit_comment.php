@@ -1,5 +1,5 @@
 <?php
-ini_set('session.save_path', 'path_to_session');
+ini_set('session.save_path', '/session');
 session_start();
 
 include("classes/connect.php");
@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -130,7 +130,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">

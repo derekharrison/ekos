@@ -5,7 +5,7 @@ class Database {
     private $host = "localhost";
     private $username = "root";
     private $password = "";
-    private $db = "ekos_db";
+    private $db = "ekos_dp";
 
     function connect() {
         return mysqli_connect($this->host, $this->username, $this->password, $this->db);

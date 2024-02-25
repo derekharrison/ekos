@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
 
     include("classes/connect.php");
@@ -37,14 +37,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Memory | Ekos </title>
+        <title> Comment | Ekos </title>
     </head>
 
     <style type="text/css">
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -108,7 +108,6 @@
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
-            width: 50px;
         }
 
         #post_bar{
@@ -143,7 +142,7 @@
 
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
@@ -172,7 +171,7 @@
         <div style="width: 800px; margin:auto; min-height: 400px;"> 
             <div> 
                 <!-- posts area -->
-                <div style="min-height: 400px;padding-top: 20px;">  
+                <div style="min-height: 400px;padding-top: 20px; border-radius: 25px">  
                     <!-- // post area -->
                     <div style="text-align:center;">
                         <?php 
@@ -197,12 +196,12 @@
                     <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
                         <form method="post" enctype="multipart/form-data" >
                             <textarea name="comment" placeholder="Comment"></textarea>
-                            <input id="post_button" type="submit" value="Post">
+                            <input id="post_button" type="submit" value="Comment">
                             <br>
                         </form>
                     </div>
                     <!-- comment -->
-                    <div id="post_bar" style="background-color: #d0d8e4">
+                    <div id="post_bar" style="background-color: #79c9f7; border-radius: 25px">
 
                         <?php                    
                             if($comments) {

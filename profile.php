@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
 
     include("classes/connect.php");
@@ -10,10 +10,8 @@
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $id = $_SESSION['ekos_userid'];
-
-    // print_r($_POST); echo "<br>";
-    // print_r($_FILES);
-
+    $image_name = "";
+    
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
@@ -105,7 +103,7 @@
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -183,10 +181,24 @@
             display: flex;
             margin-bottom: 20px;
         }
-
+        label {
+           cursor: pointer;
+           /* Style as you please, it will become the visible UI component. */
+        }
+        
+        #file-chosen{
+          margin-left: 0.3rem;
+          font-family: sans-serif;
+        }        
+        #upload-photo {
+           opacity: 0;
+           position: absolute;
+           z-index: -1;
+           font-size: 13px;
+        }
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
@@ -237,46 +249,59 @@
                         <!-- posts area -->
                         <div style="padding: 20px; text-align:left"> 
                     
-                            <form method="post" enctype="multipart/form-data" action="" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
-                                    <label style="color: grey"> profile picture </label>
-                                    <input type="file" name="file" class="hidden">
+                            <form method="post" enctype="multipart/form-data" action="" style="padding-top:10px" >
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                                    <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px">Select profile picture</label>
+                                    <input type="file" name="file" id="upload-photo" />
                                     <input id="post_button" type="submit" value="Change">
+                                    <span id="file-chosen"></span>
+                                    <script>
+                                        const actualBtn = document.getElementById('upload-photo');
+                                        
+                                        const fileChosen = document.getElementById('file-chosen');
+                                        
+                                        actualBtn.addEventListener('change', function(){
+                                          fileChosen.textContent = this.files[0].name
+                                          
+                                        })                                    
+                                    </script>                                    
                                     <br>
                                 </div>
                             </form>
-                            <form method="post" action="" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
-                                    <label style="color: grey"> first name </label>
+                            <form method="post" action=""  style="padding-top:10px" >
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+    
                                     <input name="first_name" type="text"; id="text"; placeholder="First Name">                            
                                     <input id="post_button" type="submit" value="Change">
                                     <br>
                                 </div>
                             </form> 
-                            <form method="post" action="" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
-                                    <label style="color: grey"> last name </label>
+                            <form method="post" action=""  style="padding-top:10px">
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+        
                                     <input name="last_name" type="text"; id="text"; placeholder="Last Name">                            
                                     <input id="post_button" type="submit" value="Change">
                                     <br>
                                 </div>
                             </form> 
-                            <form method="post" action="" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
-                                    <label style="color: grey"> email </label>
+                            <form method="post" action="" style="padding-top:10px">
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                                   
                                     <input name="email" type="text"; id="text"; placeholder="Email">                            
                                     <input id="post_button" type="submit" value="Change">
                                     <br>
                                 </div>
                             </form> 
-                            <form method="post" action="" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
-                                    <label style="color: grey"> password </label>
+                            <form method="post" action="" style="padding-top:10px">
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                                 
                                     <input name="password" type="password"; id="text"; placeholder="Password">                            
                                     <input id="post_button" type="submit" value="Change">
                                     <br>
                                 </div>
                             </form> 
+                            
+                            <br>
                         </div>                                                               
                     </div>
 

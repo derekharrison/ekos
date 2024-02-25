@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
 
     include("classes/connect.php");
@@ -56,7 +56,7 @@
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -146,7 +146,7 @@
 
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
@@ -214,7 +214,7 @@
                         $arr = $memory->get_memory_row($memid);
                         if($arr[0]['userid'] == $id) {
                             echo "
-                            <a href='edit_memory.php'>       
+                            <a href='edit_memory.php?memid=$memid'>       
                                 <div style='float: right; padding: 10px;'>
                                     edit
                                 </div>   
@@ -232,7 +232,7 @@
                         </form>
                     </div>
                     <!-- posts -->
-                    <div id="post_bar" style="background-color: #d0d8e4">
+                    <div id="post_bar" style="background-color: #79c9f7">
 
                         <?php                    
                             if($posts) {

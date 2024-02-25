@@ -8,10 +8,11 @@ class Memory {
         
         if(!empty($data['post'])) {
             $post = addslashes($data['post']);
-
-            $query = "insert into memories (userid,memoryid,text,image) 
+            $title = addslashes($data['title']);
+            
+            $query = "insert into memories (userid,memoryid,text,image,title) 
             values 
-            ('$userid','$memoryid','$post','$image')";
+            ('$userid','$memoryid','$post','$image','$title')";
 
             $DB = new Database();
             $res = $DB->save($query);

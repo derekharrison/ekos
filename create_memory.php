@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
 
     include("classes/connect.php");
@@ -54,7 +54,7 @@
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -141,7 +141,13 @@
             padding: 10px;
             grid-gap: 20px;
         }
-
+        
+        #text{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+        }
     </style>
 
     <body style="font-family: tahoma; background-color: #d0d8e4">
@@ -170,21 +176,21 @@
         </div>
         
         <!-- cover area -->
-        <div style="width: 800px; margin:auto; min-height: 400px;"> 
-            <div style="background-color: white; text-align: center; color: #405d9b"> 
+        <div style="; min-height: 400px;"> 
+            <div style="background-color: #4b5320; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
                 <br>
-                    <div style="font-size: 20px"> Memory </div>
+                    <div style="font-size: 20px;color: white"> Create Memory </div>
                 <br>                    
             </div>
-            
             <!-- below cover area -->
-            <div> 
+            <div style="width: 800px; margin:auto;text-align: center"> 
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px;">  
-                    <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
+                    <div style="padding: 10px; background-color: #d0d8e4;">
                         <form method="post" enctype="multipart/form-data">
-                            <textarea name="post" placeholder="What's on your mind?"></textarea>
+                            <textarea name="title" placeholder="Memory title" id="text"></textarea> <br><br>
+                            <textarea name="post" placeholder="Memory text" id="text"></textarea>
                             <input type="file" name="file" enctype="multipart/form-data">                            
                             <input id="post_button" type="submit" value="Create">
                             <br>

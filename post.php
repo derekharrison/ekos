@@ -16,6 +16,7 @@
         <div style="font-weight: bold; color: #405d9b;">
             <?php echo $row_user['first_name'] . " " . $row_user['last_name']; ?>
         </div>
+        <br>
         <?php
             echo $row['post'];
         ?>
@@ -37,7 +38,7 @@
                echo "
                <a href='comment.php?postid=$pidl'>       
                    <div style='float: left; padding: 10px;'>
-                       comment
+                       reply
                    </div>   
                </a>  ";
             ?>

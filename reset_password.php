@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
 
     include("classes/connect.php");
@@ -16,8 +16,15 @@
     $val = "";
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        $password = "314";
+        
+        $length = 4;
+        $number = "";
+        for($i = 0; $i < $length; $i++) {
+            $new_rand = rand(0,9);
+            $number = $number . $new_rand;
+        }
+        
+        $password = $number;
         $val = $_POST['email'];
         $query = "update users set password = '$password' where email = '$val' limit 1";
 
@@ -49,15 +56,15 @@
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Hello from Ekos!';
             $mail->Body    = "The new password is: " . $password;
-            $mail->AltBody = 'Coming in from erikmemories.com dude, can you verify?';
+            $mail->AltBody = "The new password is: " . $password;
 
             $mail->send();
             // echo 'Message has been sent';
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-    header("Location: index.php");
-    die; 
+        header("Location: index.php");
+        die; 
     }
 ?>
 
@@ -68,13 +75,13 @@
     <style>
         #bar{
             height:100px;
-            background-color:#3c5a99;
+            background-color: #4b5320;
             color:#d9dfeb;
             padding: 4px;
         }
 
         #signup_button{
-            background-color: #42b72a;
+            background-color: #316FF6;
             width: 70px;
             text-align: center;
             padding: 4px;
@@ -114,7 +121,7 @@
 
     </style>
     <body style="font-family: tahoma; 
-                background-color: #e9ebee;">  
+                background-color: #79c9f7;">  
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
             <div id="signup_button"> 

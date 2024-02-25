@@ -1,5 +1,5 @@
 <?php
-ini_set('session.save_path', 'path_to_session');
+ini_set('session.save_path', '/session');
 session_start();
 
 include("classes/connect.php");
@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -132,7 +132,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
@@ -162,25 +162,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             <div> 
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px;">  
-                    <!-- // Main memory post -->
-                    <div style="text-align:center;">
-                        <?php 
-                            $memory = new Memory();
-                            $val = $memory->get_memory($memid);
-                            $res = $memory->get_memory_image($memid);
-
-                            $ext = pathinfo($res[0]['image'], PATHINFO_EXTENSION);
-                            if($ext == "jpg" || $ext== "jpeg") {
-                                echo "<img src=" . $res[0]['image'] . " style='width:75%;'>";
-                            }
-                            else if($ext == "mp4") {  
-                                echo "<video controls src=" . $res[0]['image'] . " style='width:100%;'>" . "Play video" . "</video>";          
-                            }
-                            echo "<br><br><br>";
-                            echo $val[0]['text'];
-                            echo "<br><br><br>";
-                        ?>                        
-                    </div>    
                     <br><br>
                     <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
                         <form method="post" enctype="multipart/form-data" >

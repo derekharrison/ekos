@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session');
+    ini_set('session.save_path', '/session');
     session_start();
     
     include("classes/connect.php");
@@ -20,6 +20,8 @@
 
 <!DOCTYPE html>
 <html>
+    
+    
     <head>
         <title> Memories | Ekos </title>
     </head>
@@ -28,7 +30,7 @@
 
         #blue_bar{
             height: 50px;
-            background-color: #405d9b;
+            background-color: #4b5320;
             color: #d9dfeb;
         }
 
@@ -117,7 +119,7 @@
 
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
@@ -143,16 +145,13 @@
         </div>
         
         <!-- cover area -->
-        <div style="width: 800px; margin:auto; min-height: 400px;"> 
-            <div style="background-color: white; text-align: center; color: #405d9b"> 
+        <div style="margin:auto; min-height: 400px;"> 
+            <div style="background-color: #4b5320; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
-                <br>
-                    <div style="font-size: 20px"> Main Person </div>
-                <br>                    
             </div>
             
             <!-- below cover area -->
-            <div> 
+            <div style="margin:auto; width: 800px; text-align: center"> 
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px;">  
                     <div style="display: flex; justify-content: center;">
@@ -163,7 +162,7 @@
                     </div>
 
                     <!-- posts -->
-                    <div id="post_bar" class="grid-container" style="background-color: #d0d8e4; border-radius: 50px;">
+                    <div id="post_bar" class="grid-container" style="background-color: #79c9f7; border-radius: 50px;">
 
                         <?php 
                             if($memories) {

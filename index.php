@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'path_to_session);
+    ini_set('session.save_path', '/session');
     session_start();
     
     include("classes/connect.php");
@@ -37,13 +37,13 @@
     <style>
         #bar{
             height:100px;
-            background-color:#3c5a99;
+            background-color:#4b5320;
             color:#d9dfeb;
             padding: 4px;
         }
 
         #signup_button{
-            background-color: #42b72a;
+            background-color: #316FF6;
             width: 70px;
             text-align: center;
             padding: 4px;
@@ -83,7 +83,7 @@
 
     </style>
     <body style="font-family: tahoma; 
-                background-color: #e9ebee;">  
+                background-color: #79c9f7;">  
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
             <div id="signup_button"> 
@@ -95,7 +95,7 @@
         <div id="login_bar">
             <form method="post" action="">               
             
-                Log in to Ekos<br><br>
+                Log in<br><br>
 
                 <input name="email" <?php echo $email ?> type="text" id="text" placeholder="Email"><br><br>
                 <input name="password" value="<?php echo $password ?>" type="password" id="text" placeholder="Password"><br><br>

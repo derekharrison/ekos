@@ -8,14 +8,15 @@
     }
 
 </style>
-<div id="post_sub" style="background-color: white;">
+<div id="post_sub" style="background-color: #79c9f7; border-radius: 25px;">
     <div>
-        <img src="<?php echo $row_user['profile_image'] ?>" style="width: 75px; margin-right: 4px;">
+        <img src="<?php echo $row_user['profile_image'] ?>" style="width: 75px; margin-right: 4px;border-radius: 25px">
     </div>
     <div id="what" >
         <div style="font-weight: bold; color: #405d9b;">
             <?php echo $row_user['first_name'] . " " . $row_user['last_name']; ?>
         </div>
+        <br>
         <?php
             echo $row['comment'];
         ?>

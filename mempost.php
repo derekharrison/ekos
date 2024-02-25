@@ -12,8 +12,11 @@
     <div id="post" style="padding: 20px; background-color: white; border-radius: 10%;">
         <div id="what" >
             <div style="font-weight: bold; color: #405d9b;">
-                Title
+               <?php
+                    echo $row['title'];
+                ?>
             </div>
+            <br>
             <div>
                 <?php
                     echo $row['text'];
