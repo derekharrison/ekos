@@ -104,7 +104,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
-            width: 50px;
             cursor: pointer;
         }
 
@@ -163,9 +162,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div style="min-height: 400px;padding-top: 20px;">  
 
                     <br><br>
-                    <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
+                    <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="comment" placeholder="Edit comment"></textarea>
+                            <textarea style="border:solid thin #aaa; border-radius:8px;" name="comment" placeholder="Edit comment"></textarea>
                             <input id="post_button" type="submit" value="Update">
                             <br>
                         </form>

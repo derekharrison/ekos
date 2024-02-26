@@ -194,9 +194,9 @@
                     </div>  
                     <!-- make comment -->
                     <br><br>
-                    <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
+                    <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="comment" placeholder="Comment"></textarea>
+                            <textarea name="comment" placeholder="Comment" style="border:solid thin #aaa; border-radius:8px;"></textarea>
                             <input id="post_button" type="submit" value="Comment">
                             <br>
                         </form>

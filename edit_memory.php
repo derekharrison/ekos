@@ -174,7 +174,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="post" placeholder="What would you like to share?" style="border:solid thin #aaa; border-radius:8px"></textarea><br><br>
+                            <textarea name="post" placeholder="Edit memory" style="border:solid thin #aaa; border-radius:8px"></textarea><br><br>
                             <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
                             </label>                             
                             <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">

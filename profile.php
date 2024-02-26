@@ -248,10 +248,10 @@
                         ?>   
                         <br><br>
                         <!-- posts area -->
-                        <div style="padding: 20px; text-align:left"> 
+                        <div style="text-align:left; width:500px"> 
                     
                             <form method="post" enctype="multipart/form-data" action="" style="padding-top:10px" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px; font-size:15px;">
+                                <div style="padding: 10px; background-color: #79c9f7;border-radius:4px; font-size:15px;">
                                     <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px">Select profile picture</label>
                                     <input type="file" name="file" id="upload-photo" />
                                     <input id="post_button" type="submit" value="Change">
@@ -269,32 +269,32 @@
                                     <br>
                                 </div>
                             </form>
-                            <form method="post" action=""  style="padding-top:10px" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                            <form method="post" action="">
+                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
     
                                     <input name="first_name" type="text"; id="text"; placeholder="First Name">                            
                                     <input id="post_button" type="submit" value="Change">
-                                    <br>
+                               
                                 </div>
                             </form> 
-                            <form method="post" action=""  style="padding-top:10px">
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                            <form method="post" action="">
+                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
         
                                     <input name="last_name" type="text"; id="text"; placeholder="Last Name">                            
                                     <input id="post_button" type="submit" value="Change">
-                                    <br>
+                                  
                                 </div>
                             </form> 
-                            <form method="post" action="" style="padding-top:10px">
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                            <form method="post" action="">
+                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
                                    
                                     <input name="email" type="text"; id="text"; placeholder="Email">                            
                                     <input id="post_button" type="submit" value="Change">
                                     <br>
                                 </div>
                             </form> 
-                            <form method="post" action="" style="padding-top:10px">
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                            <form method="post" action="">
+                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
                                  
                                     <input name="password" type="password"; id="text"; placeholder="Password">                            
                                     <input id="post_button" type="submit" value="Change">
