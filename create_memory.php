@@ -119,6 +119,7 @@
             font-size: 14px;
             border-radius: 2px;
             width: 50px;
+            cursor: pointer;
         }
 
         #post_bar{
@@ -147,7 +148,19 @@
             border:solid 1px #888;
             padding: 4px;
             font-size: 14px;
+            width: 100%;
         }
+        
+        #file-chosen{
+          margin-left: 0.3rem;
+          font-family: sans-serif;
+        }        
+        #upload-photo {
+           opacity: 0;
+           position: absolute;
+           z-index: -1;
+           font-size: 13px;
+        }        
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -190,9 +203,22 @@
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data">
                             <input type="text" name="title" placeholder="Memory title" id="text"></textarea> <br><br>
-                            <textarea name="post" placeholder="Memory text" id="text"></textarea>
-                            <input type="file" name="file" enctype="multipart/form-data">                            
+                            <textarea name="post" placeholder="Memory text" id="text"></textarea><br><br>
+                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
+                            </label>                            
+                            <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">                            
                             <input id="post_button" type="submit" value="Create">
+                            <span id="file-chosen"></span>
+                            <script>
+                                const actualBtn = document.getElementById('upload-photo');
+                                
+                                const fileChosen = document.getElementById('file-chosen');
+                                
+                                actualBtn.addEventListener('change', function(){
+                                  fileChosen.textContent = this.files[0].name
+                                  
+                                })                                    
+                            </script>                              
                             <br>
                         </form>
                     </div>

@@ -108,6 +108,7 @@
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
+            cursor: pointer;
         }
 
         #post_bar{

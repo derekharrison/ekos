@@ -86,11 +86,13 @@
                 background-color: #79c9f7;">  
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
-            <div id="signup_button"> 
-                <a href="signup.php" style="text-decoration: none; color: white;">
-                    Sign up 
-                </a>
-            </div>
+            
+            <a href="signup.php" style="text-decoration: none; color: white;cursor: pointer;">
+                <div id="signup_button"> 
+                Sign up 
+                </div>
+            </a>
+            
         </div>
         <div id="login_bar">
             <form method="post" action="">               

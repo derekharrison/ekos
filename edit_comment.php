@@ -105,6 +105,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             font-size: 14px;
             border-radius: 2px;
             width: 50px;
+            cursor: pointer;
         }
 
         #post_bar{

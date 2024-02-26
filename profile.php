@@ -167,6 +167,7 @@
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
+            cursor: pointer;
         }
 
         #post_bar{
@@ -250,7 +251,7 @@
                         <div style="padding: 20px; text-align:left"> 
                     
                             <form method="post" enctype="multipart/form-data" action="" style="padding-top:10px" >
-                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px">
+                                <div style="border:solid thin #aaa; padding: 10px; background-color: white;border-radius:4px; font-size:15px;">
                                     <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px">Select profile picture</label>
                                     <input type="file" name="file" id="upload-photo" />
                                     <input id="post_button" type="submit" value="Change">

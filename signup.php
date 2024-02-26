@@ -86,11 +86,13 @@
                 background-color: #79c9f7;">  
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
-            <div id="signup_button"> 
-                <a href="index.php" style="text-decoration: none; color: white;">
-                    Log in 
-                </a>
-            </div>
+            
+            <a href="index.php" style="text-decoration: none; color: white;cursor: pointer">
+                <div id="signup_button"> 
+                Log in 
+                </div>
+            </a>
+            
         </div>
         <div id="login_bar"> 
             Sign up <br><br>
@@ -100,7 +102,7 @@
                 <input value="<?php echo $last_name ?>" name="last_name" type="text"; id="text"; placeholder="Last Name"> <br><br>
                 <input value="<?php echo $email ?>" name="email" type="text"; id="text"; placeholder="Email"> <br><br>
                 <input name="password" type="password"; id="text"; placeholder="Password"> <br><br>
-                <input type="submit"; id="button"; value="Sign up";> <br><br>
+                <input style="cursor: pointer;" type="submit"; id="button"; value="Sign up";> <br><br>
             </form>
         </div>
     </body>

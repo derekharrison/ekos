@@ -125,11 +125,13 @@
                 background-color: #79c9f7;">  
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
-            <div id="signup_button"> 
-                <a href="index.php" style="text-decoration: none; color: white;">
-                    Log in 
-                </a>
-            </div>
+            
+            <a href="index.php" style="text-decoration: none; color: white;cursor: pointer">
+                <div id="signup_button"> 
+                Log in 
+                </div>
+            </a>
+            
         </div>
         <div id="login_bar"> 
             Reset password <br><br>

@@ -106,7 +106,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
-            width: 50px;
+            cursor: pointer;
         }
 
         #post_bar{
@@ -129,7 +129,16 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             padding: 10px;
             grid-gap: 20px;
         }
-
+        #file-chosen{
+          margin-left: 0.3rem;
+          font-family: sans-serif;
+        }        
+        #upload-photo {
+           opacity: 0;
+           position: absolute;
+           z-index: -1;
+           font-size: 13px;
+        }  
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -163,11 +172,24 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px;">  
                     <br><br>
-                    <div style="border:solid thin #aaa; padding: 10px; background-color: white;">
+                    <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="post" placeholder="What would you like to share?"></textarea>
-                            <input type="file" name="file" enctype="multipart/form-data">
+                            <textarea name="post" placeholder="What would you like to share?" style="border:solid thin #aaa; border-radius:8px"></textarea><br><br>
+                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
+                            </label>                             
+                            <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">
                             <input id="post_button" type="submit" value="Update">
+                            <span id="file-chosen"></span>
+                            <script>
+                                const actualBtn = document.getElementById('upload-photo');
+                                
+                                const fileChosen = document.getElementById('file-chosen');
+                                
+                                actualBtn.addEventListener('change', function(){
+                                  fileChosen.textContent = this.files[0].name
+                                  
+                                })                                    
+                            </script>                              
                             <br>
                         </form>
                     </div>                     
