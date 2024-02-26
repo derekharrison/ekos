@@ -48,7 +48,7 @@
 
     if(isset($_POST['first_name'])) {
         $userid = $user_data['userid'];
-        $first_name = $_POST['first_name'];
+        $first_name = htmlspecialchars(addslashes($_POST['first_name']));
         $query = "update users set first_name = '$first_name' where userid = '$userid' limit 1";
 
         $DB = new Database();
@@ -59,7 +59,7 @@
     }
     if(isset($_POST['last_name'])) {
         $userid = $user_data['userid'];
-        $last_name = $_POST['last_name'];
+        $last_name = htmlspecialchars(addslashes($_POST['last_name']));
         $query = "update users set last_name = '$last_name' where userid = '$userid' limit 1";
 
         $DB = new Database();
@@ -70,7 +70,7 @@
     }
     if(isset($_POST['email'])) {
         $userid = $user_data['userid'];
-        $email = $_POST['email'];
+        $email = htmlspecialchars(addslashes($_POST['email']));
         $query = "update users set email = '$email' where userid = '$userid' limit 1";
 
         $DB = new Database();
@@ -81,7 +81,7 @@
     }
     if(isset($_POST['password'])) {
         $userid = $user_data['userid'];
-        $password = $_POST['password'];
+        $password = hash("sha256", htmlspecialchars(addslashes($_POST['password'])));
         $query = "update users set password = '$password' where userid = '$userid' limit 1";
 
         $DB = new Database();

@@ -25,8 +25,9 @@
         }
         
         $password = $number;
-        $val = $_POST['email'];
-        $query = "update users set password = '$password' where email = '$val' limit 1";
+        $val = htmlspecialchars(addslashes($_POST['email']));
+        $passcl = hash("sha256", $password);
+        $query = "update users set password = '$passcl' where email = '$val' limit 1";
 
         $DB = new Database();
         $DB->save($query);
@@ -49,7 +50,7 @@
             $mail->setFrom('ekos@erikmemories.com', 'erikmemories');
             $mail->addAddress($val, 'john smith');     //Add a recipient
             $mail->addReplyTo($val, 'Information');
-            // $mail->addCC('john@gmail.com');
+            // $mail->addCC('johnw@gmail.com');
             // $mail->addBCC('john@gmail.com');
 
             //Content
@@ -63,8 +64,8 @@
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-        header("Location: index.php");
-        die; 
+    header("Location: index.php");
+    die; 
     }
 ?>
 

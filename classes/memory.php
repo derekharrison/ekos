@@ -7,8 +7,8 @@ class Memory {
     public function create_memory($userid, $data, $memoryid, $image) {
         
         if(!empty($data['post'])) {
-            $post = addslashes($data['post']);
-            $title = addslashes($data['title']);
+            $post = htmlspecialchars(addslashes($data['post']));
+            $title = htmlspecialchars(addslashes($data['title']));
             
             $query = "insert into memories (userid,memoryid,text,image,title) 
             values 

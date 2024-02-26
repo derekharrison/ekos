@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = $_SESSION['ekos_userid'];
 
     $filename = $_FILES['file']['name'];
-    $post = $_POST['post'];
+    $post = htmlspecialchars(addslashes($_POST['post']));
 
     $query = "update memories set image='$filename', text='$post' where memoryid = '$memid'";
 

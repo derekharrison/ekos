@@ -8,7 +8,7 @@ class Comment {
 
         if(!empty($data['comment'])) {
 
-            $comment = addslashes($data['comment']);
+            $comment = htmlspecialchars(addslashes($data['comment']));
             $commentid = $this->create_postid();
 
             $query = "insert into comments (postid,userid,comment,memoryid,commentid) 

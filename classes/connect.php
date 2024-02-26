@@ -3,9 +3,9 @@
 class Database {
 
     private $host = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $db = "ekos_dp";
+    private $username = "daufzimy_WPIXD";
+    private $password = "qazwsx123456789QW";
+    private $db = "daufzimy_WPIXD";
 
     function connect() {
         return mysqli_connect($this->host, $this->username, $this->password, $this->db);

@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = $_SESSION['ekos_userid'];
 
     $filename = $_FILES['file']['name'];
-    $post = $_POST['post'];
+    $post = htmlspecialchars(addslashes($_POST['post']));
 
     $query = "update posts set image='$filename', post='$post' where postid = '$postid'";
 

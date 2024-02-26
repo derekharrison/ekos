@@ -18,7 +18,7 @@ $postid = $_GET['postid'];
 // posting starts here
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $comment = $_POST['comment'];
+    $comment = htmlspecialchars(addslashes($_POST['comment']));
 
     $query = "update comments set comment='$comment' where commentid = '$commentid'";
 
