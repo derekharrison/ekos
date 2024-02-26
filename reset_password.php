@@ -50,7 +50,7 @@
             $mail->setFrom('ekos@erikmemories.com', 'erikmemories');
             $mail->addAddress($val, 'john smith');     //Add a recipient
             $mail->addReplyTo($val, 'Information');
-            // $mail->addCC('johnw@gmail.com');
+            // $mail->addCC('john@gmail.com');
             // $mail->addBCC('john@gmail.com');
 
             //Content
@@ -91,7 +91,7 @@
         }
 
         #login_bar{
-            background-color: white; 
+            background-color: #79c9f7; 
             width:800px; 
             margin: auto;
             margin-top:50px;

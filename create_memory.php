@@ -150,12 +150,12 @@
         }
     </style>
 
-    <body style="font-family: tahoma; background-color: #d0d8e4">
+    <body style="font-family: tahoma; background-color: #79c9f7">
         <br>
         <!-- top bar -->
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
-                <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
+                <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none;">
                     <span>Ekos</span>
                 </a>
                 <a href="profile.php">
@@ -164,7 +164,7 @@
                             $user = new User();
                             $row_user = $user->get_user($id);  
                             echo $row_user['profile_image'];            
-                        ?>"; style="width: 50px; float: right">
+                        ?>"; style="height: 50px; float: right">
                  </a> 
                 <a href="logout.php">
                     <span style="font-size:11px; float: right; margin: 10px;color: white"> Logout </span>
@@ -177,19 +177,19 @@
         
         <!-- cover area -->
         <div style="; min-height: 400px;"> 
-            <div style="background-color: #4b5320; text-align: center; color: #405d9b"> 
+            <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
                 <br>
-                    <div style="font-size: 20px;color: white"> Create Memory </div>
+                    <div style="font-size: 30px"> Create Memory </div>
                 <br>                    
             </div>
             <!-- below cover area -->
-            <div style="width: 800px; margin:auto;text-align: center"> 
+            <div style="width: 600px; margin:auto;text-align: center"> 
                 <!-- posts area -->
-                <div style="min-height: 400px;padding-top: 20px;">  
-                    <div style="padding: 10px; background-color: #d0d8e4;">
+                <div style="min-height: 400px;padding-top: 10px;">  
+                    <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data">
-                            <textarea name="title" placeholder="Memory title" id="text"></textarea> <br><br>
+                            <input type="text" name="title" placeholder="Memory title" id="text"></textarea> <br><br>
                             <textarea name="post" placeholder="Memory text" id="text"></textarea>
                             <input type="file" name="file" enctype="multipart/form-data">                            
                             <input id="post_button" type="submit" value="Create">

@@ -52,7 +52,7 @@
         }
 
         #login_bar{
-            background-color: white; 
+            background-color: #79c9f7; 
             width:800px; 
             margin: auto;
             margin-top:50px;
@@ -100,7 +100,6 @@
                 <input value="<?php echo $last_name ?>" name="last_name" type="text"; id="text"; placeholder="Last Name"> <br><br>
                 <input value="<?php echo $email ?>" name="email" type="text"; id="text"; placeholder="Email"> <br><br>
                 <input name="password" type="password"; id="text"; placeholder="Password"> <br><br>
-                <input name="password2" type="password"; id="text"; placeholder="Retype password"> <br><br>
                 <input type="submit"; id="button"; value="Sign up";> <br><br>
             </form>
         </div>

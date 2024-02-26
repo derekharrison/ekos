@@ -52,7 +52,7 @@
         }
 
         #login_bar{
-            background-color: white; 
+            background-color: #79c9f7; 
             width:800px; 
             margin: auto;
             margin-top:50px;

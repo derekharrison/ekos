@@ -133,7 +133,7 @@
                             $user = new User();
                             $row_user = $user->get_user($id);  
                             echo $row_user['profile_image'];            
-                        ?>"; style="width: 50px; float: right">
+                        ?>"; style="height: 50px; float: right">
                  </a> 
                 <a href="logout.php">
                     <span style="font-size:11px; float: right; margin: 10px;color: white"> Logout </span>
@@ -146,7 +146,7 @@
         
         <!-- cover area -->
         <div style="margin:auto; min-height: 400px;"> 
-            <div style="background-color: #4b5320; text-align: center; color: #405d9b"> 
+            <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
             </div>
             
