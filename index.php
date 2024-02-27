@@ -25,8 +25,8 @@
             die;
         }
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = htmlspecialchars(addslashes($_POST['email']));
+        $password = htmlspecialchars(addslashes($_POST['password']));
     }
 ?>
 
@@ -43,12 +43,14 @@
         }
 
         #signup_button{
-            background-color: #316FF6;
+            background-color: #3c5a99;
             width: 70px;
             text-align: center;
             padding: 4px;
             border-radius: 4px;
             float:right;
+            font-weight: bold;
+            font-family: tahoma;
         }
 
         #login_bar{
@@ -79,6 +81,9 @@
             background-color: #3c5a99;
             color: white;
             font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: tahoma;
         }
 
     </style>
@@ -87,7 +92,7 @@
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
             
-            <a href="signup.php" style="text-decoration: none; color: white;cursor: pointer;">
+            <a href="signup.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;">
                 <div id="signup_button"> 
                 Sign up 
                 </div>
@@ -96,13 +101,14 @@
         </div>
         <div id="login_bar">
             <form method="post" action="">               
-            
-                Log in<br><br>
+                <div style="font-family: tahoma; font-size:20px; font-weight: bold;">
+                    Log in
+                </div>
+                <br><br>
 
                 <input name="email" <?php echo $email ?> type="text" id="text" placeholder="Email"><br><br>
                 <input name="password" value="<?php echo $password ?>" type="password" id="text" placeholder="Password"><br><br>
-                <input type="submit" id="button" value="Log in" style="cursor: pointer"><br><br>
-                <!-- Uncomment below code when reset password is supported -->
+                <input type="submit" id="button" value="Log in"><br><br>
                  <a href="reset_password.php" style="text-decoration: none; color: green"> 
                     <div >Reset Password</div>
                 </a> 

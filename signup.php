@@ -24,9 +24,9 @@
             die;
         }
 
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $email = $_POST['email'];
+        $first_name = htmlspecialchars(addslashes($_POST['first_name']));
+        $last_name = htmlspecialchars(addslashes($_POST['last_name']));
+        $email = htmlspecialchars(addslashes($_POST['email']));
     }
 ?>
 
@@ -43,12 +43,13 @@
         }
 
         #signup_button{
-            background-color: #316FF6;
+            background-color: #3c5a99;
             width: 70px;
             text-align: center;
             padding: 4px;
             border-radius: 4px;
             float:right;
+            font-weight: bold;
         }
 
         #login_bar{
@@ -79,6 +80,8 @@
             background-color: #3c5a99;
             color: white;
             font-weight: bold;
+            font-size: 16px;
+            font-family: tahoma;
         }
 
     </style>
@@ -87,7 +90,7 @@
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
             
-            <a href="index.php" style="text-decoration: none; color: white;cursor: pointer">
+            <a href="index.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;font-family: tahoma;">
                 <div id="signup_button"> 
                 Log in 
                 </div>
@@ -95,7 +98,10 @@
             
         </div>
         <div id="login_bar"> 
-            Sign up <br><br>
+            <div style="font-size:20px; font-weight: bold;">
+                Sign up
+            </div>   
+            <br><br>
             <form method="post" action="">
 
                 <input value="<?php echo $first_name ?>" name="first_name" type="text"; id="text"; placeholder="First Name"> <br><br>

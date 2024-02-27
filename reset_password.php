@@ -82,12 +82,13 @@
         }
 
         #signup_button{
-            background-color: #316FF6;
+            background-color: #3c5a99;
             width: 70px;
             text-align: center;
             padding: 4px;
             border-radius: 4px;
             float:right;
+            font-weight: bold;
         }
 
         #login_bar{
@@ -118,6 +119,8 @@
             background-color: #3c5a99;
             color: white;
             font-weight: bold;
+            font-size: 16px;
+            font-family: tahoma;
         }
 
     </style>
@@ -126,7 +129,7 @@
         <div id="bar"> 
             <div style="font-size: 40px;"> Ekos </div>
             
-            <a href="index.php" style="text-decoration: none; color: white;cursor: pointer">
+            <a href="index.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;font-family: tahoma">
                 <div id="signup_button"> 
                 Log in 
                 </div>
@@ -134,7 +137,10 @@
             
         </div>
         <div id="login_bar"> 
-            Reset password <br><br>
+            <div style="font-size:20px; font-weight: bold;font-family: tahoma">
+                Reset password
+            </div>   
+            <br><br>
             <form method="post" action="">
                 <input name="email" type="text"; id="text"; placeholder="Email"> <br><br>
                 <input type="submit"; id="button"; value="Reset Password";> <br><br>

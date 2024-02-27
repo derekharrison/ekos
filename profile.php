@@ -254,7 +254,7 @@
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:4px; font-size:15px;">
                                     <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px">Select profile picture</label>
                                     <input type="file" name="file" id="upload-photo" />
-                                    <input id="post_button" type="submit" value="Change">
+                                    <input id="post_button" type="submit" value="Update">
                                     <span id="file-chosen"></span>
                                     <script>
                                         const actualBtn = document.getElementById('upload-photo');
@@ -273,7 +273,7 @@
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
     
                                     <input name="first_name" type="text"; id="text"; placeholder="First Name">                            
-                                    <input id="post_button" type="submit" value="Change">
+                                    <input id="post_button" type="submit" value="Update">
                                
                                 </div>
                             </form> 
@@ -281,7 +281,7 @@
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
         
                                     <input name="last_name" type="text"; id="text"; placeholder="Last Name">                            
-                                    <input id="post_button" type="submit" value="Change">
+                                    <input id="post_button" type="submit" value="Update">
                                   
                                 </div>
                             </form> 
@@ -289,7 +289,7 @@
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
                                    
                                     <input name="email" type="text"; id="text"; placeholder="Email">                            
-                                    <input id="post_button" type="submit" value="Change">
+                                    <input id="post_button" type="submit" value="Update">
                                     <br>
                                 </div>
                             </form> 
@@ -297,7 +297,7 @@
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
                                  
                                     <input name="password" type="password"; id="text"; placeholder="Password">                            
-                                    <input id="post_button" type="submit" value="Change">
+                                    <input id="post_button" type="submit" value="Update">
                                     <br>
                                 </div>
                             </form> 
