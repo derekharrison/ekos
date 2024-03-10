@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
     include("classes/connect.php");
     include("classes/signup.php");
@@ -32,7 +32,7 @@
 
 <html> 
     <head>  
-        <title> Ekos | Sign up</title>
+        <title> ekos | sign up</title>
     </head>
     <style>
         #bar{
@@ -88,7 +88,7 @@
     <body style="font-family: tahoma; 
                 background-color: #79c9f7;">  
         <div id="bar"> 
-            <div style="font-size: 40px;"> Ekos </div>
+            <div style="font-size: 40px;"> ekos </div>
             
             <a href="index.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;font-family: tahoma;">
                 <div id="signup_button"> 

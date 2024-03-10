@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
@@ -37,7 +37,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Comment | Ekos </title>
+        <title> comment | ekos </title>
     </head>
 
     <style type="text/css">
@@ -149,7 +149,7 @@
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
-                    <span>Ekos</span>
+                    <span>ekos</span>
                 </a>
                 <a href="profile.php">
                     <img src="

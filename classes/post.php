@@ -25,7 +25,7 @@ class Post {
                 $has_image = 1;
             }
        
-            $post = htmlspecialchars(addslashes($data['post']));
+            $post = addslashes($data['post']);
             $postid = $this->create_postid();
 
             $query = "insert into posts (postid,userid,post,memoryid,image,has_image) 

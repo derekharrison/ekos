@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
@@ -11,6 +11,7 @@
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $id = $_SESSION['ekos_userid'];
     $image_name = "";
+    $_SESSION['memid'] = "";
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -96,7 +97,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Profile | Ekos </title>
+        <title> profile | ekos </title>
     </head>
 
     <style type="text/css">
@@ -205,7 +206,7 @@
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
-                    <span>Ekos</span>
+                    <span>ekos</span>
                 </a>
                 <a href="profile.php">
                     <img src="

@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
@@ -11,43 +11,91 @@
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $id = $_SESSION['ekos_userid'];
+    $memorytitle = "";
+    $posttext = "";
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
-
+        
         $memory = new Memory();
         $id = $_SESSION['ekos_userid'];
-        $memoryid = $memory->create_postid();
-        $_SESSION['memid'] = $memoryid;
+        if(empty($_SESSION['memid'])) {
+            $_SESSION['memid'] = $memory->create_postid();
+        }
         $filename = "";
         $result = "";
-        if(isset($_FILES['file']['name'])) {
-            $filename = $_FILES['file']['name'];
-            $result = $memory->create_memory($id, $_POST, $memoryid, $filename);
+        
+        if(isset($_POST['post_button'])) {
+            
+            $total = count($_FILES['upload']['name']);
+            
+            // Loop through each file
+            for( $i=0 ; $i < $total ; $i++ ) {
+            
+                //Get the temp file path
+                $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+                
+                //Make sure we have a file path
+                if ($tmpFilePath != ""){
+                    //Setup our new file path
+                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+                    move_uploaded_file($tmpFilePath, $newFilePath);                
+                }
+            }        
+    
+            $result = $memory->create_memory($id, $_POST, $_SESSION['memid'], $_FILES); 
+            if($result == "") {
+                header("Location: memory.php");
+                die;
+            }
+            else {
+                echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
+                echo "The following errors occured: <br><br>";
+                echo $result;
+                echo "</div>";
+            }            
+        }
+        
+        if(isset($_POST['add_button'])) {
+            $total = count($_FILES['upload']['name']);
+            $post = htmlspecialchars(addslashes($_POST['post']));
+            $title = htmlspecialchars(addslashes($_POST['title']));
+            $memorytitle = $title;
+            $posttext = $post;
+            // Loop through each file
+            for( $i=0 ; $i < $total ; $i++ ) {
+            
+                //Get the temp file path
+                $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+                
+                //Make sure we have a file path
+                if ($tmpFilePath != ""){
+                    //Setup our new file path
+                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+                    move_uploaded_file($tmpFilePath, $newFilePath);                
+                }
+            }        
+    
+            $result = $memory->add_files($id, $_POST, $_SESSION['memid'], $_FILES); 
+            if($result == "") {
+                // header("Location: create_memory.php");
+                // die;                
+            }
+            else {
+                echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
+                echo "The following errors occured: <br><br>";
+                echo $result;
+                echo "</div>";
+            }            
+        }
 
-            move_uploaded_file($_FILES['file']['tmp_name'], "uploads/" . $filename);
-        }
-        else {
-            $result = $memory->create_memory($id, $_POST, $memoryid, $filename);
-        }
-
-        if($result == "") {
-            header("Location: memory.php");
-            die;
-        }
-        else {
-            echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
-            echo "The following errors occured: <br><br>";
-            echo $result;
-            echo "</div>";
-        }
     }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Memory | Ekos </title>
+        <title> memory | ekos </title>
     </head>
 
     <style type="text/css">
@@ -112,13 +160,12 @@
 
         #post_button{
             float: right;
+            margin-left: 20px;
             background-color: #405d9b;
             border: none;
             color: white;
-            padding: 4px;
             font-size: 14px;
             border-radius: 2px;
-            width: 50px;
             cursor: pointer;
         }
 
@@ -138,7 +185,7 @@
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto;
-            background-color: #d0d8e4;
+            background-color: #79c9f7;
             padding: 10px;
             grid-gap: 20px;
         }
@@ -150,10 +197,18 @@
             font-size: 14px;
             width: 100%;
         }
-        
+        #text2{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+            width: 100%;
+            height: 20px;
+        }        
         #file-chosen{
           margin-left: 0.3rem;
           font-family: sans-serif;
+          float: left;
         }        
         #upload-photo {
            opacity: 0;
@@ -169,7 +224,7 @@
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none;">
-                    <span>Ekos</span>
+                    <span>ekos</span>
                 </a>
                 <a href="profile.php">
                     <img src="
@@ -187,7 +242,6 @@
                 </a>                
             </div>
         </div>
-        
         <!-- cover area -->
         <div style="; min-height: 400px;"> 
             <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
@@ -196,18 +250,44 @@
                     <div style="font-size: 30px"> Create Memory </div>
                 <br>                    
             </div>
+            <div class="grid-container" style="text-align:center;">
+                <?php 
+                    $memory = new Memory();
+                    $memid = $_SESSION['memid'];
+                    $val = $memory->get_memory($memid);
+                    $res = $memory->get_memory_image($memid);
+                    $res2 = $memory->get_memory_images($memid);
+                    $j = 0;
+                    while(isset($res2[$j])) {
+                        $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                        if($ext == "jpg" || $ext== "jpeg") {
+                            echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                        }
+                        else if($ext == "mp4") {  
+                            echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";          
+                        }      
+                        $j++;
+                    }
+
+                    echo "<br><br><br>";
+
+                ?>                        
+            </div>              
+   
             <!-- below cover area -->
             <div style="width: 600px; margin:auto;text-align: center"> 
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 10px;">  
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data">
-                            <input type="text" name="title" placeholder="Memory title" id="text"></textarea> <br><br>
-                            <textarea name="post" placeholder="Memory text" id="text"></textarea><br><br>
-                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
-                            </label>                            
-                            <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">                            
-                            <input id="post_button" type="submit" value="Create">
+                     
+                            <textarea name="title" placeholder="Memory Title" id="text2"><?php echo $memorytitle ?></textarea><br><br>                            
+                            <textarea name="post" placeholder="Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>
+                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
+                            </label>                          
+                            <input name="upload[]" type="file" multiple="multiple" id="upload-photo" enctype="multipart/form-data"/>                             
+                            <input id="post_button" type="submit" value="Post" name="post_button">
+                            <input id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button">
                             <span id="file-chosen"></span>
                             <script>
                                 const actualBtn = document.getElementById('upload-photo');

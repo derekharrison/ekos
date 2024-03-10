@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
@@ -49,7 +49,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Memory | Ekos </title>
+        <title> memory | ekos </title>
     </head>
 
     <style type="text/css">
@@ -140,7 +140,7 @@
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto;
-            background-color: #d0d8e4;
+            background-color: #79c9f7;
             padding: 10px;
             grid-gap: 20px;
         }
@@ -162,7 +162,7 @@
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
-                    <span>Ekos</span>
+                    <span>ekos</span>
                 </a>
                 <a href="profile.php">
                     <img src="
@@ -188,36 +188,55 @@
                 <div style="min-height: 400px;padding-top: 20px;">  
                     <!-- // Main memory post -->
                     <div style="text-align:center;">
+                        <?php
+                            $memory = new Memory();
+                            $row = $memory->get_memory_row($memid);
+                            echo $row[0]['title'];
+                        ?>
+                    </div> <br><br><br>                    
+                    <div class="grid-container" style="text-align:center;">
                         <?php 
                             $memory = new Memory();
                             $val = $memory->get_memory($memid);
                             $res = $memory->get_memory_image($memid);
-
-                            $ext = pathinfo($res[0]['image'], PATHINFO_EXTENSION);
-                            if($ext == "jpg" || $ext== "jpeg") {
-                                echo "<img style='width:75%;' src=" . "uploads/" . $res[0]['image'] . " >";
+                            $res2 = $memory->get_memory_images($memid);
+                            $j = 0;
+                            while(isset($res2[$j])) {
+                                $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                                if($ext == "jpg" || $ext== "jpeg") {
+                                    echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                                }
+                                else if($ext == "mp4") {  
+                                    echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";          
+                                }      
+                                $j++;
                             }
-                            else if($ext == "mp4") {  
-                                echo "<video controls style='width:80%;' src=" . "uploads/" . $res[0]['image'] . ">" . "Play video" . "</video>";          
-                            }
-                            echo "<br><br><br>";
-                            echo $val[0]['text'];
-                            echo "<br><br><br>";
+    
                         ?>                        
-                    </div>  
-
-                    <?php 
-                        $memory = new Memory();
-                        $arr = $memory->get_memory_row($memid);
-                        if($arr[0]['userid'] == $id) {
-                            echo "
-                            <a href='delete_memory.php'>       
-                                <div style='float: right; padding: 10px;'>
-                                    delete
-                                </div>   
-                            </a>  ";
-                        }
-                    ?>                    
+                    </div> <br><br><br>
+                    <div style="text-align:center;">
+                        <?php
+                            $memory = new Memory();
+                            $row = $memory->get_memory_row($memid);
+                            echo $row[0]['text'];
+                        ?>
+                    </div> <br><br><br> 
+                    <div style="text-align: center">
+                        <?php 
+                            $memory = new Memory();
+                            $val = $memory->get_memory($memid);
+                            $arr = $memory->get_memory_row($memid);
+                            if($arr[0]['userid'] == $id) {
+                                echo "
+                                <a href='delete_memory.php'>       
+                                    <div style='float: right; padding: 10px;'>
+                                        delete
+                                    </div>   
+                                </a>  ";
+                            }
+                        ?>                         
+                    </div>
+                   
         
                     <?php 
                         $memory = new Memory();

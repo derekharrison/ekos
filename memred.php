@@ -1,5 +1,5 @@
 <?php
-ini_set('session.save_path', '/session');
+ini_set('session.save_path', 'session');
 session_start();
 
 $memoryid = $_GET['memid'];

@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
     
     include("classes/connect.php");
@@ -7,7 +7,7 @@
 
     $email = "";
     $password = "";    
-    
+    $_SESSION['memid'] = "";
     
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $login = new Login();
@@ -32,7 +32,8 @@
 
 <html> 
     <head>  
-        <title> Ekos | Log in</title>
+        <title> ekos | log in</title>
+        <link rel="icon" type="image/x-icon" href="uploads/charlie-brown-pp.jpg">
     </head>
     <style>
         #bar{
@@ -90,7 +91,7 @@
     <body style="font-family: tahoma; 
                 background-color: #79c9f7;">  
         <div id="bar"> 
-            <div style="font-size: 40px;"> Ekos </div>
+            <div style="font-size: 40px;"> ekos </div>
             
             <a href="signup.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;">
                 <div id="signup_button"> 

@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
@@ -31,7 +31,13 @@
 
         $DB = new Database();
         $DB->save($query);
+        
+        $query = "select * from users where email = '$val' limit 1";
 
+        $read = $DB->read($query);
+        $first_name = $read['first_name'];
+        $last_name = $read['last_name'];
+        
         //Create an instance; passing `true` enables exceptions
         $mail = new PHPMailer(true);
 
@@ -48,7 +54,10 @@
 
             //Recipients
             $mail->setFrom('ekos@erikmemories.com', 'erikmemories');
-            $mail->addAddress($val, 'john smith');     //Add a recipient
+            
+            $name = $first_name . " " . $last_name;
+            
+            $mail->addAddress($val, $name);     //Add a recipient
             $mail->addReplyTo($val, 'Information');
             // $mail->addCC('john@gmail.com');
             // $mail->addBCC('john@gmail.com');
@@ -64,8 +73,8 @@
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-    header("Location: index.php");
-    die; 
+        header("Location: index.php");
+        die; 
     }
 ?>
 
@@ -121,6 +130,7 @@
             font-weight: bold;
             font-size: 16px;
             font-family: tahoma;
+            cursor: pointer;
         }
 
     </style>

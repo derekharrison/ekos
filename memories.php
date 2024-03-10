@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/session');
+    ini_set('session.save_path', 'session');
     session_start();
     
     include("classes/connect.php");
@@ -14,8 +14,9 @@
     // collect posts
     $memory = new Memory();
     $id = $_SESSION['ekos_userid'];
-    
+    $_SESSION['memid'] = "";
     $memories = $memory->get_memories();
+    
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@
     
     
     <head>
-        <title> Memories | Ekos </title>
+        <title> memories | ekos </title>
     </head>
 
     <style type="text/css">
@@ -125,7 +126,7 @@
         <div id="blue_bar">
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
-                    <span>Ekos</span>
+                    <span>ekos</span>
                 </a>
                 <a href="profile.php">
                     <img src="
@@ -172,7 +173,8 @@
                                     $row_user = $user->get_user($row['userid']);
                                     $memoryid = $row['memoryid'];
                                     $userid = $row['userid'];
-                                    $image_loc = $row['image'];
+                                    $media = $memory->get_memory_images($memoryid);
+                                    $image_loc = $media[0]['media'];
                                     include("mempost.php");
                                 }
                             }

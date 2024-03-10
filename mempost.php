@@ -26,12 +26,12 @@
             <br><br>
             <div>
                 <?php 
-                    $ext = pathinfo($row['image'], PATHINFO_EXTENSION);
+                    $ext = pathinfo($image_loc, PATHINFO_EXTENSION);
                     if($ext == "jpg" || $ext== "jpeg") {
-                        echo "<img style='width:100%' src=" . "uploads/" . $row['image'] . " >";
+                        echo "<img style='width:100%' src=" . "uploads/" . $image_loc . " >";
                     }
                     else if($ext == "mp4") {  
-                        echo "<video controls style='width:80%' src=" . "uploads/" . $row['image'] . " ></video>";          
+                        echo "<video controls style='width:80%' src=" . "uploads/" . $image_loc . " ></video>";          
                     }
                 ?>
             </div>             

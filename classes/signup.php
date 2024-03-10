@@ -22,10 +22,10 @@ class Signup {
 
     public function create_user($data) {
 
-        $first_name = htmlspecialchars(addslashes($data['first_name']));
-        $last_name = htmlspecialchars(addslashes($data['last_name']));
-        $email = htmlspecialchars(addslashes($data['email']));
-        $password = hash("sha256",htmlspecialchars(addslashes($data['password'])));
+        $first_name = $data['first_name'];
+        $last_name = $data['last_name'];
+        $email = $data['email'];
+        $password = $data['password'];
         $url_address = strtolower($first_name . "." . $last_name);
         $userid = $this->create_userid();
         $profile_image = "uploads/gn_avatar.png";
