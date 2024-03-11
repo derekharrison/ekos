@@ -19,8 +19,8 @@
         
         $memory = new Memory();
         $id = $_SESSION['ekos_userid'];
-        if(empty($_SESSION['memid'])) {
-            $_SESSION['memid'] = $memory->create_postid();
+        if(empty($_SESSION['funmem'])) {
+            $_SESSION['funmem'] = $memory->create_postid();
         }
         $filename = "";
         $result = "";
@@ -43,7 +43,7 @@
                 }
             }        
     
-            $result = $memory->create_memory($id, $_POST, $_SESSION['memid'], $_FILES); 
+            $result = $memory->create_memory($id, $_POST, $_SESSION['funmem'], $_FILES); 
             if($result == "") {
                 header("Location: memory.php");
                 die;
@@ -76,7 +76,7 @@
                 }
             }        
     
-            $result = $memory->add_files($id, $_POST, $_SESSION['memid'], $_FILES); 
+            $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
             if($result == "") {
                 // header("Location: create_memory.php");
                 // die;                
@@ -253,7 +253,7 @@
             <div class="grid-container" style="text-align:center;">
                 <?php 
                     $memory = new Memory();
-                    $memid = $_SESSION['memid'];
+                    $memid = $_SESSION['funmem'];
                     $val = $memory->get_memory($memid);
                     $res = $memory->get_memory_image($memid);
                     $res2 = $memory->get_memory_images($memid);

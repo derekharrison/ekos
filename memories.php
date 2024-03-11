@@ -15,6 +15,7 @@
     $memory = new Memory();
     $id = $_SESSION['ekos_userid'];
     $_SESSION['memid'] = "";
+    $_SESSION['funmem'] = "";
     $memories = $memory->get_memories();
     
 ?>

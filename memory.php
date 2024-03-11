@@ -10,9 +10,10 @@
 
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
-    $memid = $_SESSION['memid'];
+    $memid = $_SESSION['funmem'];
     $id = $_SESSION['ekos_userid'];
-
+    // print_r($_SESSION);echo "<br>";
+    
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -191,6 +192,7 @@
                         <?php
                             $memory = new Memory();
                             $row = $memory->get_memory_row($memid);
+                            
                             echo $row[0]['title'];
                         ?>
                     </div> <br><br><br>                    

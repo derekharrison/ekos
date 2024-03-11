@@ -11,7 +11,7 @@ include("classes/memory.php");
 $login = new Login();
 $user_data = $login->check_login($_SESSION['ekos_userid']);
 
-$memid = $_SESSION['memid'];
+$memid = $_SESSION['funmem'];
 $memory = new Memory();
 $arr = $memory->delete_memory_row($memid);
 header("Location: memories.php");
