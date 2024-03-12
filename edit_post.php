@@ -10,7 +10,7 @@ include("classes/memory.php");
 
 $login = new Login();
 $user_data = $login->check_login($_SESSION['ekos_userid']);
-$memid = $_SESSION['memid'];
+$memid = $_SESSION['funmem'];
 $id = $_SESSION['ekos_userid'];
 $postid = $_GET['myvariable'];
 if(!isset($_GET['myvariable'])) {
@@ -85,7 +85,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }        
         
-        $result = $postgb->add_files($id, $_POST, $_SESSION['memid'], $_FILES, $postid); 
+        $result = $postgb->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $postid); 
 
         if($result == "") {
             // header("Location: edit_post.php");
