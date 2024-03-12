@@ -15,7 +15,7 @@
     $posttext = "";
     $memory = new Memory();
     $id = $_SESSION['ekos_userid'];
-    if(empty($_SESSION['funmem'])) {
+    if($_SESSION['funmem'] == "") {
         $_SESSION['funmem'] = $memory->create_postid();
     }    
     // posting starts here

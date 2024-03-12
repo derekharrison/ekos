@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }        
 
-        $result = $memory->update_memory($id, $_POST, $_SESSION['memid'], $_FILES); 
+        $result = $memory->update_memory($id, $_POST, $_SESSION['funmem'], $_FILES); 
         if($result == "") {
             header("Location: memory.php");
             die;
@@ -83,7 +83,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }        
 
-        $result = $memory->add_files($id, $_POST, $_SESSION['memid'], $_FILES); 
+        $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
 
         if($result == "") {
             // header("Location: create_memory.php");
