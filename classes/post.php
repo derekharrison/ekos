@@ -5,8 +5,110 @@ include("image.php");
 class Post {
 
     private $error = "";
+    
+    public function update_post($userid, $data, $memoryid, $files, $postid) {
+        
+        $total = count($files['upload']['name']);
+        
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['upload']['name'][$i];
+            $fileid = $this->create_postid();
+            $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+            values 
+            ('$userid','$memoryid','$filename','$fileid','$postid')";
 
-    public function create_post($userid, $data, $memid, $files) {
+            $DB = new Database();
+            $res = $DB->save($query);
+        }   
+        
+        $filename = "";
+        if(isset($files['upload']['name'][0])) {
+            $filename = $files['upload']['name'][0];
+        }
+        else {
+            $filenames = $this->get_memory_images($memoryid);
+            $filename = $filenames[0];
+        
+        }
+        
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
+        
+        $query = "update posts set post='$post' where postid = '$postid'";
+    
+        $DB = new Database();
+        $result = $DB->save($query);
+
+        return $this->error;
+    } 
+    
+    public function add_files($userid, $data, $memoryid, $files, $postid) {
+        
+        $total = count($files['upload']['name']);
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
+        
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['upload']['name'][$i];
+            $fileid = $this->create_postid();
+            $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+            values 
+            ('$userid','$memoryid','$filename','$fileid','$postid')";
+
+            $DB = new Database();
+            $res = $DB->save($query);
+        }   
+
+        $query = "update posts set post='$post' where postid = '$postid'";
+    
+        $DB = new Database();
+        $result = $DB->save($query);
+        
+        return $this->error;
+    } 
+    
+    public function create_post2($userid, $data, $memid, $files, $postid) {
+        
+        $total = count($files['upload']['name']);
+        
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['upload']['name'][$i];
+            $fileid = $this->create_postid();
+            $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+            values 
+            ('$userid','$memid','$filename','$fileid','$postid')";
+
+            $DB = new Database();
+            $res = $DB->save($query);
+        }   
+        
+        $filename = "";
+        if(isset($files['upload']['name'][0])) {
+            $filename = $files['upload']['name'][0];
+        }
+        else {
+            $filenames = $this->get_post_images($postid);
+            $filename = $filenames[0];
+        
+        }
+        
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
+        
+        $query = "insert into posts (userid,memoryid,post,image,postid) 
+        values 
+        ('$userid','$memid','$post','$filename','$postid')";
+
+        $DB = new Database();
+        $res = $DB->save($query);
+
+        return $this->error;
+    }     
+    
+    public function create_post($userid, $data, $memid, $files, $postid) {
 
         if(!empty($data['post']) || !empty($files['file']['name'])) {
 
@@ -25,8 +127,8 @@ class Post {
                 $has_image = 1;
             }
        
-            $post = addslashes($data['post']);
-            $postid = $this->create_postid();
+            $post = htmlspecialchars(addslashes($data['post']));
+            // $postid = $this->create_postid();
 
             $query = "insert into posts (postid,userid,post,memoryid,image,has_image) 
             values 
@@ -35,14 +137,14 @@ class Post {
             $DB = new Database();
             $res = $DB->save($query);
         }
-        else {
-            $this->error .= "Please type something to post. <br>";
-        }
+        // else {
+        //     $this->error .= "Please type something to post. <br>";
+        // }
 
         return $this->error;
     } 
 
-    private function create_postid() {
+    public function create_postid() {
 
         $length = rand(4, 19);
         $number = "";
@@ -138,5 +240,19 @@ class Post {
             return false;
         }
     }    
+    
+    public function get_post_images($id) {
+
+        $query = "select * from postfiles where postid = '$id'";
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }     
         
 }

@@ -12,12 +12,16 @@ $login = new Login();
 $user_data = $login->check_login($_SESSION['ekos_userid']);
 $memid = $_SESSION['funmem'];
 $id = $_SESSION['ekos_userid'];
-$postid = $_GET['myvariable'];
+$fileid = $_GET['fileid'];
 
-$post = new Post();
-$res = $post->delete_posts($postid);
+$res = false;
 
-header("Location: memory.php");
-die;
+$query = "delete from memoryfiles where fileid = '$fileid'";
+
+$DB = new Database();
+$result = $DB->save($query);
+
+header("Location: create_memory.php");
+// die;
 
 ?>

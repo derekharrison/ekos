@@ -12,7 +12,7 @@
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $memid = $_SESSION['funmem'];
     $id = $_SESSION['ekos_userid'];
-    // print_r($_SESSION);echo "<br>";
+    $_SESSION['funpostid'] = "";
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -22,9 +22,11 @@
         
         $filename = "";
         $result = "";
+        $postid = $post->create_postid();
+        
         if(isset($_FILES['file']['name'])) {
             $filename = $_FILES['file']['name'];
-            $result = $post->create_post($id, $_POST, $memid, $_FILES);
+            $result = $post->create_post($id, $_POST, $memid, $_FILES, $postid);
 
             move_uploaded_file($_FILES['file']['tmp_name'], "uploads/" . $filename);
         }
@@ -121,7 +123,7 @@
             padding: 4px;
             font-size: 14px;
             border-radius: 2px;
-            width: 50px;
+            text-decoration: none;
             cursor: pointer;
         }
 
@@ -256,12 +258,16 @@
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="post" placeholder="What would you like to share?" style="border:solid thin #aaa; border-radius: 5px"></textarea>
-                            <br><br>
-                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
-                            </label>                             
-                            <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">
-                            <input id="post_button" type="submit" value="Share">
+           
+                            <!---->
+                            <div style="display: flex; justify-content: center">
+                                <a href="share_memory.php" id="post_button">
+                                    Share memory
+                                    <br>
+                                </a>
+                            </div>
+                            <!---->
+                            
                             <span id="file-chosen"></span>
                             <script>
                                 const actualBtn = document.getElementById('upload-photo');

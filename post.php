@@ -21,17 +21,35 @@
             echo $row['post'];
         ?>
         <br><br>
-        <div>
+        <div class="grid-container" style="text-align:center;text-decoration:none;background-color: white">
             <?php 
-                $ext = pathinfo($row['image'], PATHINFO_EXTENSION);
-                if($ext == "jpg" || $ext== "jpeg") {
-                    echo "<img style='width:60%' src=" . "uploads/" . $row['image'] . ">";
+                $post = new Post();
+                $memid = $_SESSION['funmem'];
+                $postid = $row['postid'];
+                $res2 = $post->get_post_images($postid);
+                $j = 0;
+                while(isset($res2[$j])) {
+                    $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                    $pidl = $res2[$j]['fileid'];
+                    if($ext == "jpg" || $ext== "jpeg") {
+                        echo "<div  >";
+                        echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                        echo "<br><br><br> ";                            
+                        echo "</div>";
+                    }
+                    else if($ext == "mp4") {  
+                        echo "<div style='text-decoration:none' >";
+                        echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                        echo "<br><br><br> ";                            
+                        echo "</div>";                            
+                    }      
+                    $j++;
                 }
-                else if($ext == "mp4") {  
-                    echo "<video controls style='width:60%' src=" . "uploads/" . $row['image'] . " >" . "Play video" . "</video>";          
-                }
-            ?>
-        </div>
+
+                echo "<br><br><br>";
+
+            ?>                        
+        </div> 
         <div>
             <?php
                $pidl = $row['postid'];

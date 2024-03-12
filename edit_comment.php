@@ -14,6 +14,14 @@ $memid = $_SESSION['memid'];
 $id = $_SESSION['ekos_userid'];
 $commentid = $_GET['commentid'];
 $postid = $_GET['postid'];
+$commenttext = "";
+
+$query = "select comment from comments where commentid = '$commentid'";
+
+$DB = new Database();
+$result = $DB->read($query);
+
+$commenttext = $result[0]['comment'];
 
 // posting starts here
 if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -24,6 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $DB = new Database();
     $result = $DB->save($query);
+    
     header("Location: comment.php?postid=$postid");
     die;
 }
@@ -164,7 +173,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea style="border:solid thin #aaa; border-radius:8px;" name="comment" placeholder="Edit comment"></textarea>
+                            <textarea style="border:solid thin #aaa; border-radius:8px;" name="comment" placeholder="Edit comment"><?php echo $commenttext ?></textarea>
                             <input id="post_button" type="submit" value="Update">
                             <br>
                         </form>

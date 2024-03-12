@@ -11,7 +11,7 @@
 
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
-    $memid = $_SESSION['memid'];
+    $memid = $_SESSION['funmem'];
     $id = $_SESSION['ekos_userid'];
     $postid = $_GET['postid'];
 
@@ -174,24 +174,51 @@
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px; border-radius: 25px">  
                     <!-- // post area -->
-                    <div style="text-align:center;">
+                    <div class="grid-container" style="text-align:center;text-decoration:none; background-color:#79c9f7;">
                         <?php 
                             $post = new Post();
-                            $val = $post->get_post($postid);
-                            $res = $post->get_post_image($postid);
-
-                            $ext = pathinfo($res[0]['image'], PATHINFO_EXTENSION);
-                            if($ext == "jpg" || $ext== "jpeg") {
-                                echo "<img style='width:75%;' src=" . "uploads/" . $res[0]['image'] . ">";
+                            $memid = $_SESSION['funmem'];
+                            $res2 = $post->get_post_images($postid);
+              
+                            $j = 0;
+                            while(isset($res2[$j])) {
+                                $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                                $pidl = $res2[$j]['fileid'];
+                                $useridl = $res2[$j]['userid'];
+                                if($ext == "jpg" || $ext== "jpeg") {
+                                    echo "<div  >";
+                                    echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                                    if($useridl == $id) {
+                                        echo "<br><br><br>
+                                        <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                            <div>
+                                                delete
+                                            </div>   
+                                        </a>  ";       
+                                    }
+                                    echo "</div>";
+                                }
+                                else if($ext == "mp4") {  
+                                    echo "<div style='text-decoration:none' >";
+                                    echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                                    if($useridl == $id) {
+                                        echo "<br><br><br>
+                                        <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                            <div>
+                                                delete
+                                            </div>   
+                                        </a>  ";                             
+                                    }
+                                               
+                                    echo "</div>";                            
+                                }      
+                                $j++;
                             }
-                            else if($ext == "mp4") {  
-                                echo "<video controls style='width:80%;' src=" . "uploads/" . $res[0]['image'] . " >" . "Play video" . "</video>";          
-                            }
+            
                             echo "<br><br><br>";
-                            echo $val[0]['post'];
-                            echo "<br><br><br>";
+            
                         ?>                        
-                    </div>  
+                    </div> 
                     <!-- make comment -->
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">

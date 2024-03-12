@@ -17,10 +17,10 @@
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
-        $memory = new Memory();
+        $postgb = new Post();
         $id = $_SESSION['ekos_userid'];
-        if(empty($_SESSION['funmem'])) {
-            $_SESSION['funmem'] = $memory->create_postid();
+        if(empty($_SESSION['funpost'])) {
+            $_SESSION['funpost'] = $postgb->create_postid();
         }
         $filename = "";
         $result = "";
@@ -42,9 +42,10 @@
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
-    
-            $result = $memory->create_memory($id, $_POST, $_SESSION['funmem'], $_FILES); 
+            
+            $result = $postgb->create_post2($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost']); 
             if($result == "") {
+                $_SESSION['funpost'] = "";
                 header("Location: memory.php");
                 die;
             }
@@ -75,10 +76,9 @@
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
-    
-            $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
+            $result = $postgb->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost']); 
             if($result == "") {
-                // header("Location: create_memory.php");
+                // header("Location: share_memory.php");
                 // die;                
             }
             else {
@@ -95,7 +95,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> memory | ekos </title>
+        <title> post | ekos </title>
     </head>
 
     <style type="text/css">
@@ -247,16 +247,15 @@
             <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
                 <br>
-                    <div style="font-size: 30px"> Create Memory </div>
+                    <div style="font-size: 30px"> Share Memory </div>
                 <br>                    
             </div>
             <div class="grid-container" style="text-align:center;text-decoration:none;">
                 <?php 
-                    $memory = new Memory();
+                    $post = new Post();
                     $memid = $_SESSION['funmem'];
-                    $val = $memory->get_memory($memid);
-                    $res = $memory->get_memory_image($memid);
-                    $res2 = $memory->get_memory_images($memid);
+                    $postid = $_SESSION['funpost'];
+                    $res2 = $post->get_post_images($postid);
                     $j = 0;
                     while(isset($res2[$j])) {
                         $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
@@ -267,11 +266,11 @@
                             echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                             if($useridl == $id) {
                                 echo "<br><br><br>
-                                <a href='delete_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <a href='delete_post_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
                                     <div>
                                         delete
                                     </div>   
-                                </a>  ";    
+                                </a>  ";         
                             }
                             echo "</div>";
                         }
@@ -280,11 +279,11 @@
                             echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
                             if($useridl == $id) {
                                 echo "<br><br><br>
-                                <a href='delete_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <a href='delete_post_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
                                     <div>
                                         delete
                                     </div>   
-                                </a>  "; 
+                                </a>  ";     
                             }
                             echo "</div>";                            
                         }      
@@ -302,9 +301,8 @@
                 <div style="min-height: 400px;padding-top: 10px;">  
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data">
-                     
-                            <textarea name="title" placeholder="Memory Title" id="text2"><?php echo $memorytitle ?></textarea><br><br>                            
-                            <textarea name="post" placeholder="Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>
+                                                 
+                            <textarea name="post" placeholder="Shared Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>
                             <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
                             </label>                          
                             <input name="upload[]" type="file" multiple="multiple" id="upload-photo" enctype="multipart/form-data"/>                             

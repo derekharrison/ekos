@@ -13,22 +13,94 @@ $user_data = $login->check_login($_SESSION['ekos_userid']);
 $memid = $_SESSION['memid'];
 $id = $_SESSION['ekos_userid'];
 $postid = $_GET['myvariable'];
+if(!isset($_GET['myvariable'])) {
+    $postid = $_SESSION['funpostid'];
+}
+$posttext = "";
+$postgblb = new Post();
+
+if($posttext == "") {
+    $valloc = $postgblb->get_post($postid);
+    $posttext = $valloc[0]['post'];
+}
 
 // posting starts here
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $post = new Post();
+    
     $id = $_SESSION['ekos_userid'];
+    $filename = "";
+    $result = "";
 
-    $filename = $_FILES['file']['name'];
-    $post = htmlspecialchars(addslashes($_POST['post']));
+    if(isset($_POST['post_button'])) {
+        $post = new Post();
+        $total = count($_FILES['upload']['name']);
+        
+        // Loop through each file
+        for( $i=0 ; $i < $total ; $i++ ) {
+        
+            //Get the temp file path
+            $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+            
+            //Make sure we have a file path
+            if ($tmpFilePath != ""){
+                //Setup our new file path
+                $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+                move_uploaded_file($tmpFilePath, $newFilePath);                
+            }
+        }        
+        
+        $result = $post->update_post($id, $_POST, $memid, $_FILES, $postid);
+        
+        if($result == "") {
+            header("Location: memory.php");
+            die;
+        }
+        else {
+            echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
+            echo "The following errors occured: <br><br>";
+            echo $result;
+            echo "</div>";
+        }            
+    }  
 
-    $query = "update posts set image='$filename', post='$post' where postid = '$postid'";
+    if(isset($_POST['add_button'])) {
+        $postgb = new Post();
+        $total = count($_FILES['upload']['name']);
+        $post = htmlspecialchars(addslashes($_POST['post']));
+        $memorytitle = $title;
+        $posttext = $post;
+        
+        // Loop through each file
+        for( $i=0 ; $i < $total ; $i++ ) {
+        
+            //Get the temp file path
+            $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+            
+            //Make sure we have a file path
+            if ($tmpFilePath != ""){
+                //Setup our new file path
+                $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+                move_uploaded_file($tmpFilePath, $newFilePath);                
+            }
+        }        
+        
+        $result = $postgb->add_files($id, $_POST, $_SESSION['memid'], $_FILES, $postid); 
 
-    $DB = new Database();
-    $result = $DB->save($query);
-    header("Location: memory.php");
-    die;
+        if($result == "") {
+            // header("Location: edit_post.php");
+            // die;                
+        }
+        else {
+            echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
+            echo "The following errors occured: <br><br>";
+            echo $result;
+            echo "</div>";
+        }            
+    }
+    
+    // header("Location: memory.php");
+    // die;
 }
 
 ?>
@@ -101,6 +173,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
         #post_button{
             float: right;
+            margin-left: 20px;
             background-color: #405d9b;
             border: none;
             color: white;
@@ -126,7 +199,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto;
-            background-color: #d0d8e4;
+            background-color: #79c9f7;
             padding: 10px;
             grid-gap: 20px;
         }
@@ -139,7 +212,22 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
            position: absolute;
            z-index: -1;
            font-size: 13px;
-        } 
+        }  
+        #text{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+            width: 100%;
+        }
+        #text2{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+            width: 100%;
+            height: 20px;
+        }           
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -165,23 +253,76 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                     <span style="font-size:11px; float: right; margin: 10px;color: white"> Memories </span>
                 </a>                
             </div>
-        </div>
+        </div><br><br><br>
+        <div class="grid-container" style="text-align:center;text-decoration:none;">
+            <?php 
+                $post = new Post();
+                $memid = $_SESSION['funmem'];
+                $res2 = $post->get_post_images($postid);
+  
+                $j = 0;
+                while(isset($res2[$j])) {
+                    $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                    $pidl = $res2[$j]['fileid'];
+                    $useridl = $res2[$j]['userid'];
+                    if($ext == "jpg" || $ext== "jpeg") {
+                        echo "<div  >";
+                        echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                        if($useridl == $id) {
+                            echo "<br><br><br>
+                            <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";       
+                        }
+                        echo "</div>";
+                    }
+                    else if($ext == "mp4") {  
+                        echo "<div style='text-decoration:none' >";
+                        echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                        if($useridl == $id) {
+                            echo "<br><br><br>
+                            <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";                             
+                        }
+                                   
+                        echo "</div>";                            
+                    }      
+                    $j++;
+                }
+
+                echo "<br><br><br>";
+
+            ?>                        
+        </div> 
         
+        <div style="text-align:center;">
+            <?php
+                $postl = new Post();
+                $row = $postl->get_post($postid);
+                echo $row[0]['post'];
+            ?>
+        </div> <br><br><br>         
         <!-- cover area -->
         <div style="width: 800px; margin:auto; min-height: 400px;"> 
             <div> 
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 20px;">  
-
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-                            <textarea name="post" placeholder="Edit post" style="border:solid thin #aaa; border-radius:8px"></textarea><br><br>
-                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select file
-                            </label>                              
-                            <input type="file" name="file" enctype="multipart/form-data" id="upload-photo">
-                            <input id="post_button" type="submit" value="Update">
-                           <span id="file-chosen"></span>
+               
+                            <textarea name="post" placeholder="Post Text" id="text"><?php echo $posttext ?></textarea><br><br>
+                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select files
+                            </label>                             
+                            <input name="upload[]" type="file" multiple="multiple" id="upload-photo" enctype="multipart/form-data"/> 
+                            <input id="post_button" type="submit" value="Update" name="post_button">
+                            <input id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button">                            
+                            <span id="file-chosen"></span>
                             <script>
                                 const actualBtn = document.getElementById('upload-photo');
                                 

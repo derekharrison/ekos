@@ -10,7 +10,7 @@ include("classes/memory.php");
 
 $login = new Login();
 $user_data = $login->check_login($_SESSION['ekos_userid']);
-$memid = $_SESSION['memid'];
+$memid = $_SESSION['funmem'];
 $id = $_SESSION['ekos_userid'];
 $memorytitle = "";
 $posttext = "";
@@ -269,14 +269,32 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 $j = 0;
                 while(isset($res2[$j])) {
                     $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                    $pidl = $res2[$j]['fileid'];
                     if($ext == "jpg" || $ext== "jpeg") {
+                        echo "<div  >";
                         echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                        echo "<br><br><br>
+                            <a href='delete_file_edit.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";                            
+                        echo "</div>";
                     }
                     else if($ext == "mp4") {  
-                        echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";          
+                        echo "<div style='text-decoration:none' >";
+                        echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                        echo "<br><br><br>
+                            <a href='delete_file_edit.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";                            
+                        echo "</div>";                            
                     }      
                     $j++;
                 }
+
 
                 echo "<br><br><br>";
 

@@ -165,7 +165,7 @@ class Memory {
     
     public function get_memory_images($id) {
 
-        $query = "select media from memoryfiles where memoryid = '$id'";
+        $query = "select * from memoryfiles where memoryid = '$id'";
 
         $DB = new Database();
         $result = $DB->read($query);
