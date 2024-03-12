@@ -16,6 +16,7 @@
     $id = $_SESSION['ekos_userid'];
     $_SESSION['memid'] = "";
     $_SESSION['funmem'] = "";
+    $_SESSION['funpostid'] = "";
     $memories = $memory->get_memories();
     
 ?>

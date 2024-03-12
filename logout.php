@@ -6,6 +6,7 @@
         unset($_SESSION['ekos_userid']);
     }
     
-
+    $_SESSION['funpostid'] = "";
+    
     header("Location: index.php");
     die;

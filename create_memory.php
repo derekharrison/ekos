@@ -13,15 +13,15 @@
     $id = $_SESSION['ekos_userid'];
     $memorytitle = "";
     $posttext = "";
-    
+    $memory = new Memory();
+    $id = $_SESSION['ekos_userid'];
+    if(empty($_SESSION['funmem'])) {
+        $_SESSION['funmem'] = $memory->create_postid();
+    }    
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
-        $memory = new Memory();
-        $id = $_SESSION['ekos_userid'];
-        if(empty($_SESSION['funmem'])) {
-            $_SESSION['funmem'] = $memory->create_postid();
-        }
+
         $filename = "";
         $result = "";
         
