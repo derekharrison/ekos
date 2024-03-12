@@ -262,7 +262,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         <div class="grid-container" style="text-align:center;">
             <?php 
                 $memory = new Memory();
-                $memid = $_SESSION['memid'];
+                $memid = $_SESSION['funmem'];
                 $val = $memory->get_memory($memid);
                 $res = $memory->get_memory_image($memid);
                 $res2 = $memory->get_memory_images($memid);
