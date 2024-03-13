@@ -175,8 +175,9 @@
                                     $row_user = $user->get_user($row['userid']);
                                     $memoryid = $row['memoryid'];
                                     $userid = $row['userid'];
-                                    $media = $memory->get_memory_images($memoryid);
-                                    $image_loc = $media[0]['media'];
+                                    $media = $memory->get_memory_image($memoryid);
+                                    $image_loc = $media[0]['image'];
+                                 
                                     include("mempost.php");
                                 }
                             }

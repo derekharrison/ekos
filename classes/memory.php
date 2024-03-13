@@ -3,6 +3,7 @@
 class Memory {
 
     private $error = "";
+    private $filename = "";
 
     public function add_files($userid, $data, $memoryid, $files) {
         
@@ -22,7 +23,15 @@ class Memory {
             $res = $DB->save($query);
         }   
 
-        $query = "update memories set title='$title', text='$post' where memoryid = '$memoryid'";
+        if($filename == "") {
+            $filenames = $this->get_memory_image($memoryid);
+            $filename = $filenames[0]['image'];
+        }
+        
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
+        
+        $query = "update memories set title='$title', text='$post', image='$filename' where memoryid = '$memoryid'";
     
         $DB = new Database();
         $result = $DB->save($query);
@@ -46,20 +55,15 @@ class Memory {
             $res = $DB->save($query);
         }   
         
-        $filename = "";
-        if(isset($files['upload']['name'][0])) {
-            $filename = $files['upload']['name'][0];
-        }
-        else {
-            $filenames = $this->get_memory_images($memoryid);
-            $filename = $filenames[0];
-        
+        if($filename == "") {
+            $filenames = $this->get_memory_image($memoryid);
+            $filename = $filenames[0]['image'];
         }
         
         $post = htmlspecialchars(addslashes($data['post']));
         $title = htmlspecialchars(addslashes($data['title']));
         
-        $query = "update memories set title='$title', text='$post' where memoryid = '$memoryid'";
+        $query = "update memories set title='$title', text='$post', image='$filename' where memoryid = '$memoryid'";
     
         $DB = new Database();
         $result = $DB->save($query);
@@ -83,14 +87,9 @@ class Memory {
             $res = $DB->save($query);
         }   
         
-        $filename = "";
-        if(isset($files['upload']['name'][0])) {
-            $filename = $files['upload']['name'][0];
-        }
-        else {
-            $filenames = $this->get_memory_images($memoryid);
-            $filename = $filenames[0];
-        
+        if($filename == "") {
+            $filenames = $this->get_memory_image($memoryid);
+            $filename = $filenames[0]['image'];
         }
         
         $post = htmlspecialchars(addslashes($data['post']));
