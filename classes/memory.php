@@ -44,24 +44,26 @@ class Memory {
 
     public function update_memory($userid, $data, $memoryid, $files) {
         
-        // $total = count($files['upload']['name']);
+        $total = count($files['upload']['name']);
         
-        // // Loop through each file
-        // for( $i = 0 ; $i < $total ; $i++ ) {
-        //     $filename = $files['upload']['name'][$i];
-        //     $fileid = $this->create_postid();
-        //     $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
-        //     values 
-        //     ('$userid','$memoryid','$filename','$fileid')";
-
-        //     $DB = new Database();
-        //     $res = $DB->save($query);
-        // }   
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['upload']['name'][$i];
+            if($filename != "") {
+                $fileid = $this->create_postid();
+                $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
+                values 
+                ('$userid','$memoryid','$filename','$fileid')";
+    
+                $DB = new Database();
+                $res = $DB->save($query);
+            }
+        }   
         
-        // if($filename == "") {
-        //     $filenames = $this->get_memory_images($memoryid);
-        //     $filename = $filenames[0]['media'];
-        // }
+        if($filename == "") {
+            $filenames = $this->get_memory_images($memoryid);
+            $filename = $filenames[0]['image'];
+        }
         
         $post = htmlspecialchars(addslashes($data['post']));
         $title = htmlspecialchars(addslashes($data['title']));
@@ -76,24 +78,26 @@ class Memory {
     
     public function create_memory($userid, $data, $memoryid, $files) {
         
-        // $total = count($files['upload']['name']);
+        $total = count($files['upload']['name']);
         
-        // // Loop through each file
-        // for( $i = 0 ; $i < $total ; $i++ ) {
-        //     $filename = $files['upload']['name'][$i];
-        //     $fileid = $this->create_postid();
-        //     $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
-        //     values 
-        //     ('$userid','$memoryid','$filename','$fileid')";
-
-        //     $DB = new Database();
-        //     $res = $DB->save($query);
-        // }   
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['upload']['name'][$i];
+            if($filename != "") {
+                $fileid = $this->create_postid();
+                $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
+                values 
+                ('$userid','$memoryid','$filename','$fileid')";
+    
+                $DB = new Database();
+                $res = $DB->save($query);
+            }
+        }   
         
-        // if($filename == "") {
-        //     $filenames = $this->get_memory_images($memoryid);
-        //     $filename = $filenames[0]['media'];
-        // }
+        if($filename == "") {
+            $filenames = $this->get_memory_images($memoryid);
+            $filename = $filenames[0]['image'];
+        }
         
         $post = htmlspecialchars(addslashes($data['post']));
         $title = htmlspecialchars(addslashes($data['title']));
