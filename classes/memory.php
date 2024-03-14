@@ -14,13 +14,16 @@ class Memory {
         // Loop through each file
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
-            $fileid = $this->create_postid();
-            $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
-            values 
-            ('$userid','$memoryid','$filename','$fileid')";
+            if($filename != "") {
+                $fileid = $this->create_postid();
+                $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
+                values 
+                ('$userid','$memoryid','$filename','$fileid')";
+    
+                $DB = new Database();
+                $res = $DB->save($query);                
+            }
 
-            $DB = new Database();
-            $res = $DB->save($query);
         }   
 
         if($filename == "") {
@@ -60,13 +63,13 @@ class Memory {
         //     $filename = $filenames[0]['media'];
         // }
         
-        // $post = htmlspecialchars(addslashes($data['post']));
-        // $title = htmlspecialchars(addslashes($data['title']));
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
         
-        // $query = "update memories set title='$title', text='$post', image='$filename' where memoryid = '$memoryid'";
+        $query = "update memories set title='$title', text='$post', image='$filename' where memoryid = '$memoryid'";
     
-        // $DB = new Database();
-        // $result = $DB->save($query);
+        $DB = new Database();
+        $result = $DB->save($query);
 
         return $this->error;
     } 
@@ -206,6 +209,10 @@ class Memory {
         $query = "delete from comments where memoryid = '$id'";
 
         $result = $DB->save($query);
+        
+        $query = "delete from memoryfiles where memoryid = '$id'";
+
+        $result = $DB->save($query);        
 
         if($result) {
             return $result;

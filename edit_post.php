@@ -68,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         $postgb = new Post();
         $total = count($_FILES['upload']['name']);
         $post = htmlspecialchars(addslashes($_POST['post']));
-        $memorytitle = $title;
+
         $posttext = $post;
         
         // Loop through each file
