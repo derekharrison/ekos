@@ -227,7 +227,39 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             font-size: 14px;
             width: 100%;
             height: 20px;
-        }           
+        }     
+        #dummy{
+           opacity: 0;
+           position: absolute;
+           z-index: -1;  
+           font-size: 13px;
+           float: left;
+           padding-right: 20px;
+        }
+        .container{
+            width: 400px;
+            margin: auto;
+            padding: 30px;
+            transform: scale(1.4);
+            margin-top: 50px;
+        }
+        .percent{
+            float: right;
+            margin-top: 2px;
+        }
+        .progress-bar{
+            width: 100%;
+            height: 6px;
+            margin-top: 30px;
+            background-color: rgb(231,231,231);
+        }
+        .progress-bar span{
+            height: 100%;
+            width: 0%;
+            display: block;
+            background-color: green;
+            transition-duration: .2s;
+        }         
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -314,17 +346,17 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div style="min-height: 400px;padding-top: 20px;">  
                     <br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
-                        <form method="post" enctype="multipart/form-data" >
-               
-                            <textarea name="post" placeholder="Post Text" id="text"><?php echo $posttext ?></textarea><br><br>
-                            <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;">Select files
-                            </label>                             
-                            <input name="upload[]" type="file" multiple="multiple" id="upload-photo" enctype="multipart/form-data"/> 
+                         <form method="post" enctype="multipart/form-data">                        
+                            <textarea name="post" placeholder="Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>                
+                            <input name="upload[]" id="dummy" type="file" multiple="multiple" enctype="multipart/form-data"/> 
+                            <label for="dummy" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
+                            </label>
                             <input id="post_button" type="submit" value="Update" name="post_button">
-                            <input id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button">                            
+                            <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" >Add Files</button>
+                     
                             <span id="file-chosen"></span>
                             <script>
-                                const actualBtn = document.getElementById('upload-photo');
+                                const actualBtn = document.getElementById('dummy');
                                 
                                 const fileChosen = document.getElementById('file-chosen');
                                 
@@ -332,9 +364,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                   fileChosen.textContent = this.files[0].name
                                   
                                 })                                    
-                            </script>                              
-                            <br>
+                            </script>                 
+                            <div class="percent">0%</div><br>
+                            <div class="progress-bar">
+                                <span></span>
+                            </div> 
                         </form>
+                        <script src="script4.js"></script>  
                     </div>                     
                 </div>                             
             </div>                

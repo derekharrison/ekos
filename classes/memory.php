@@ -112,6 +112,42 @@ class Memory {
         return $this->error;
     } 
 
+    public function create_memory2($userid, $data, $memoryid, $files) {
+        
+        $total = count($files['uploadfiles']['name']);
+        
+        // Loop through each file
+        for( $i = 0 ; $i < $total ; $i++ ) {
+            $filename = $files['uploadfiles']['name'][$i];
+            if($filename != "") {
+                $fileid = $this->create_postid();
+                $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
+                values 
+                ('$userid','$memoryid','$filename','$fileid')";
+    
+                $DB = new Database();
+                $res = $DB->save($query);
+            }
+        }   
+                
+        if($filename == "") {
+            $filenames = $this->get_memory_images($memoryid);
+            $filename = $filenames[0]['image'];
+        }
+        
+        $post = htmlspecialchars(addslashes($data['post']));
+        $title = htmlspecialchars(addslashes($data['title']));
+        
+        $query = "insert into memories (userid,memoryid,text,title,image) 
+        values 
+        ('$userid','$memoryid','$post','$title','$filename')";
+
+        $DB = new Database();
+        $res = $DB->save($query);
+
+        return $this->error;
+    } 
+    
     public function create_postid() {
 
         $length = rand(4, 19);

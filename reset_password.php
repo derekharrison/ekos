@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', '/home3/daufzimy/public_html/session');
+    ini_set('session.save_path', 'session');
     session_start();
 
     include("classes/connect.php");
