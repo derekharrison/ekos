@@ -332,35 +332,13 @@
                 <!-- posts area -->
                 <div style="min-height: 400px;padding-top: 10px;">  
                     <div style="padding: 10px; background-color: #79c9f7;">
-                        <!--<form method="post" enctype="multipart/form-data">-->
-                                                 
-                        <!--    <textarea name="post" placeholder="Shared Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>-->
-                        <!--    <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files-->
-                        <!--    </label>                          -->
-                        <!--    <input name="upload[]" type="file" multiple="multiple" id="upload-photo" enctype="multipart/form-data"/>                             -->
-                        <!--    <input id="post_button" type="submit" value="Post" name="post_button">-->
-                        <!--    <input id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button">-->
-                        <!--    <span id="file-chosen"></span>-->
-                        <!--    <script>-->
-                        <!--        const actualBtn = document.getElementById('upload-photo');-->
-                                
-                        <!--        const fileChosen = document.getElementById('file-chosen');-->
-                                
-                        <!--        actualBtn.addEventListener('change', function(){-->
-                        <!--          fileChosen.textContent = this.files[0].name-->
-                                  
-                        <!--        })                                    -->
-                        <!--    </script>                              -->
-                        <!--    <br>-->
-                        <!--</form>-->
-                        
                          <form method="post" enctype="multipart/form-data">                        
                             <textarea name="post" placeholder="Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>                
                             <input name="upload[]" id="dummy" type="file" multiple="multiple" enctype="multipart/form-data"/> 
                             <label for="dummy" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
                             </label>
-                            <input id="post_button" type="submit" value="Share" name="post_button">
-                            <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" >Add Files</button>
+                            <button id="post_button" type="submit" value="Share" name="post_button" onclick="Geeks()">Share</button>
+                            <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" onclick="Geeks()">Add Files</button>
                      
                             <span id="file-chosen"></span>
                             <script>
@@ -372,7 +350,33 @@
                                   fileChosen.textContent = this.files[0].name
                                   
                                 })                                    
-                            </script>                 
+                            </script>  
+                            <script>
+                                function Geeks() {
+                                    var http = new XMLHttpRequest();
+                                
+                                    var data = new FormData();
+                                
+                                    for(var i = 0; i < input.files.length; i++) {
+                                        data.append('file' + i, input.files[i]);
+                                    }
+                                
+                                    data.append('files_length', input.files.length);
+                                
+                                    http.onload = () => {
+                                        percent.innerHTML = "Done";
+                                    }
+                                
+                                    http.upload.onprogress = (e) => {
+                                        var percent_complete = (e.loaded / e.total) * 100;
+                                        percent.innerHTML = Math.floor(percent_complete) + '%';
+                                        progressBar.style.width = percent_complete + '%';
+                                    }
+                                
+                                    http.open('POST', 'share_memory.php', true);
+                                    http.send(data);                                     
+                                }
+                            </script>                              
                             <div class="percent">0%</div><br>
                             <div class="progress-bar">
                                 <span></span>

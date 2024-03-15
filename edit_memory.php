@@ -353,8 +353,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <input name="upload[]" id="dummy" type="file" multiple="multiple" enctype="multipart/form-data"/> 
                                 <label for="dummy" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
                                 </label>
-                                <input id="post_button" type="submit" value="Update" name="post_button">
-                                <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" >Add Files</button>
+                                <button id="post_button" type="submit" value="Update" name="post_button" onclick="Geeks()">Update</button>
+                                <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" onclick="Geeks()">Add Files</button>
                          
                                 <span id="file-chosen"></span>
                                 <script>
@@ -366,7 +366,33 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                       fileChosen.textContent = this.files[0].name
                                       
                                     })                                    
-                                </script>                 
+                                </script>      
+                                <script>
+                                    function Geeks() {
+                                        var http = new XMLHttpRequest();
+                                    
+                                        var data = new FormData();
+                                    
+                                        for(var i = 0; i < input.files.length; i++) {
+                                            data.append('file' + i, input.files[i]);
+                                        }
+                                    
+                                        data.append('files_length', input.files.length);
+                                    
+                                        http.onload = () => {
+                                            percent.innerHTML = "Done";
+                                        }
+                                    
+                                        http.upload.onprogress = (e) => {
+                                            var percent_complete = (e.loaded / e.total) * 100;
+                                            percent.innerHTML = Math.floor(percent_complete) + '%';
+                                            progressBar.style.width = percent_complete + '%';
+                                        }
+                                    
+                                        http.open('POST', 'edit_memory.php', true);
+                                        http.send(data);                                     
+                                    }
+                                </script>                                
                                 <div class="percent">0%</div><br>
                                 <div class="progress-bar">
                                     <span></span>
