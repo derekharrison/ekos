@@ -178,8 +178,7 @@
                                     $media2 = $memory->get_memory_images($memoryid);
                                     $media = $memory->get_memory_image($memoryid);
                                     $image_loc = $media2[0]['media'];
-                                    // print_r($media2);echo "______________";
-                                    // print_r($media);
+                            
                           
                                     include("mempost.php");
                                 }

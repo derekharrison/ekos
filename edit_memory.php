@@ -45,7 +45,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             //Make sure we have a file path
             if ($tmpFilePath != ""){
                 //Setup our new file path
-                $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+
+                $newFilePath = $_FILES['upload']['name'][$i];
+                $newFilePath = strtolower($newFilePath);
+                $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                $newFilePath = "./uploads/" . $newFilePath;
                 move_uploaded_file($tmpFilePath, $newFilePath);                
             }
         }        
@@ -78,7 +82,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             //Make sure we have a file path
             if ($tmpFilePath != ""){
                 //Setup our new file path
-                $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+
+                $newFilePath = $_FILES['upload']['name'][$i];
+                $newFilePath = strtolower($newFilePath);
+                $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                $newFilePath = "./uploads/" . $newFilePath;
                 move_uploaded_file($tmpFilePath, $newFilePath);                
             }
         }        
@@ -302,7 +310,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 while(isset($res2[$j])) {
                     $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                     $pidl = $res2[$j]['fileid'];
-                    if($ext == "jpg" || $ext== "jpeg") {
+                    if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                         echo "<div  >";
                         echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                         echo "<br><br><br>

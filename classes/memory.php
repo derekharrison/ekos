@@ -15,6 +15,8 @@ class Memory {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);
                 $fileid = $this->create_postid();
                 $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
                 values 
@@ -31,8 +33,6 @@ class Memory {
             $filename = $filenames[0]['image'];
         }
         
-        $post = htmlspecialchars(addslashes($data['post']));
-        $title = htmlspecialchars(addslashes($data['title']));
         
         $query = "update memories set title='$title', text='$post', image='$filename' where memoryid = '$memoryid'";
     
@@ -50,6 +50,8 @@ class Memory {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                
                 $fileid = $this->create_postid();
                 $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
                 values 
@@ -84,6 +86,8 @@ class Memory {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                
                 $fileid = $this->create_postid();
                 $query = "insert into memoryfiles (userid,memoryid,media,fileid) 
                 values 

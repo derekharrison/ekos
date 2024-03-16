@@ -38,7 +38,10 @@
                 //Make sure we have a file path
                 if ($tmpFilePath != ""){
                     //Setup our new file path
-                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+                    $newFilePath = $_FILES['upload']['name'][$i];
+                    $newFilePath = strtolower($newFilePath);
+                    $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                    $newFilePath = "./uploads/" . $newFilePath;
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
@@ -71,8 +74,12 @@
                 
                 //Make sure we have a file path
                 if ($tmpFilePath != ""){
-                    //Setup our new file path
-                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+
+                    $newFilePath = $_FILES['upload']['name'][$i];
+                    $newFilePath = strtolower($newFilePath);
+                    $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                    $newFilePath = "./uploads/" . $newFilePath;
+                    
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
@@ -279,7 +286,7 @@
             <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
                 <img src="uploads/mountain.jpg" style="width: 100%">
                 <br>
-                    <div style="font-size: 30px"> Share Memory </div>
+                    <div style="font-size: 30px"> Comment </div>
                 <br>                    
             </div>
             <div class="grid-container" style="text-align:center;text-decoration:none;">
@@ -293,7 +300,7 @@
                         $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                         $pidl = $res2[$j]['fileid'];
                         $useridl = $res2[$j]['userid'];
-                        if($ext == "jpg" || $ext== "jpeg") {
+                        if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                             echo "<div  >";
                             echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                             if($useridl == $id) {
@@ -333,11 +340,11 @@
                 <div style="min-height: 400px;padding-top: 10px;">  
                     <div style="padding: 10px; background-color: #79c9f7;">
                          <form method="post" enctype="multipart/form-data">                        
-                            <textarea name="post" placeholder="Memory Text" id="text"><?php echo $posttext ?></textarea><br><br>                
+                            <textarea name="post" placeholder="Comment Text" id="text"><?php echo $posttext ?></textarea><br><br>                
                             <input name="upload[]" id="dummy" type="file" multiple="multiple" enctype="multipart/form-data"/> 
                             <label for="dummy" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
                             </label>
-                            <button id="post_button" type="submit" value="Share" name="post_button" onclick="Geeks()">Share</button>
+                            <button id="post_button" type="submit" value="Post" name="post_button" onclick="Geeks()">Post</button>
                             <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" onclick="Geeks()">Add Files</button>
                      
                             <span id="file-chosen"></span>

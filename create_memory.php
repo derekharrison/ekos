@@ -39,7 +39,12 @@
                 //Make sure we have a file path
                 if ($tmpFilePath != ""){
                     //Setup our new file path
-                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+   
+                    $newFilePath = $_FILES['upload']['name'][$i];
+                    $newFilePath = strtolower($newFilePath);
+                    $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                    $newFilePath = "./uploads/" . $newFilePath;
+                    
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
@@ -71,16 +76,19 @@
                 
                 //Make sure we have a file path
                 if ($tmpFilePath != ""){
-                    //Setup our new file path
-                    $newFilePath = "./uploads/" . $_FILES['upload']['name'][$i];
+
+                    $newFilePath = $_FILES['upload']['name'][$i];
+                    $newFilePath = strtolower($newFilePath);
+                    $newFilePath = str_replace(" ", "_", $newFilePath);                      
+                    $newFilePath = "./uploads/" . $newFilePath;
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
     
             $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
             if($result == "") {
-                header("Location: create_memory.php");
-                die;                
+                // header("Location: create_memory.php");
+                // die;                
             }
             else {
                 echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
@@ -295,7 +303,7 @@
                         $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                         $pidl = $res2[$j]['fileid'];
                         $useridl = $res2[$j]['userid'];
-                        if($ext == "jpg" || $ext== "jpeg") {
+                        if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                             echo "<div  >";
                             echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                             if($useridl == $id) {
@@ -340,7 +348,7 @@
                             <input name="upload[]" id="dummy" type="file" multiple="multiple" enctype="multipart/form-data"/> 
                             <label for="dummy" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px;cursor: pointer;float:left">Select files
                             </label>
-                            <button id="post_button" type="submit" value="Create" name="post_button" onclick="Geeks()">Create</button>
+                            <button id="post_button" type="submit" value="Create" name="post_button" onclick="Geeks()">Post</button>
                             <button id="post_button" type="submit" value="Add files" style="background-color: green" name="add_button" onclick="Geeks()">Add Files</button>
                      
                             <span id="file-chosen"></span>

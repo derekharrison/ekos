@@ -15,6 +15,8 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                
                 $fileid = $this->create_postid();
                 $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
                 values 
@@ -49,6 +51,8 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                
                 $fileid = $this->create_postid();
                 $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
                 values 
@@ -75,6 +79,8 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                
                 $fileid = $this->create_postid();
                 $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
                 values 

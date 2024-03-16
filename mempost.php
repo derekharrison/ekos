@@ -27,7 +27,7 @@
             <div>
                 <?php 
                     $ext = pathinfo($image_loc, PATHINFO_EXTENSION);
-                    if($ext == "jpg" || $ext== "jpeg") {
+                    if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                         echo "<img style='width:100%' src=" . "uploads/" . $image_loc . " >";
                     }
                     else if($ext == "mp4") {  

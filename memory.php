@@ -14,37 +14,6 @@
     $id = $_SESSION['ekos_userid'];
     $_SESSION['funpostid'] = "";
     
-    // posting starts here
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
-
-        $post = new Post();
-        $id = $_SESSION['ekos_userid'];
-        
-        $filename = "";
-        $result = "";
-        $postid = $post->create_postid();
-        
-        if(isset($_FILES['file']['name'])) {
-            $filename = $_FILES['file']['name'];
-            $result = $post->create_post($id, $_POST, $memid, $_FILES, $postid);
-
-            move_uploaded_file($_FILES['file']['tmp_name'], "uploads/" . $filename);
-        }
-        else {
-            $result = $post->create_post($id, $_POST, $memid, $_FILES);
-        }
-
-        if($result == "") {
-            header("Location: memory.php");
-            die;
-        }
-        else {
-            echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
-            echo "The following errors occured: <br><br>";
-            echo $result;
-            echo "</div>";
-        }
-    }
     $post = new Post();
     $posts = $post->get_postsbyid($memid);
 ?>
@@ -207,7 +176,7 @@
                             $j = 0;
                             while(isset($res2[$j])) {
                                 $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
-                                if($ext == "jpg" || $ext== "jpeg") {
+                                if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                                     echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                                 }
                                 else if($ext == "mp4") {  
@@ -262,7 +231,7 @@
                             <!---->
                             <div style="display: flex; justify-content: center">
                                 <a href="share_memory.php" id="post_button">
-                                    Share memory
+                                    Comment
                                     <br>
                                 </a>
                             </div>
