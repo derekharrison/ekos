@@ -15,15 +15,21 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
-                $filename = strtolower($filename);
-                $filename = str_replace(" ", "_", $filename);                
-                $fileid = $this->create_postid();
-                $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
-                values 
-                ('$userid','$memoryid','$filename','$fileid','$postid')";
-    
-                $DB = new Database();
-                $res = $DB->save($query);
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                   
+                    $filename = strtolower($filename);
+                    $filename = str_replace(" ", "_", $filename);                
+                    $fileid = $this->create_postid();
+                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    values 
+                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+        
+                    $DB = new Database();
+                    $res = $DB->save($query);
+                }
+                else {
+                    $this->error = "Only the file types jpg, jpeg, png and mp4 are supported";                    
+                }  
             }
         }   
         
@@ -51,22 +57,40 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
-                $filename = strtolower($filename);
-                $filename = str_replace(" ", "_", $filename);                
-                $fileid = $this->create_postid();
-                $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
-                values 
-                ('$userid','$memoryid','$filename','$fileid','$postid')";
-    
-                $DB = new Database();
-                $res = $DB->save($query);
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                 
+                    $filename = strtolower($filename);
+                    $filename = str_replace(" ", "_", $filename);                
+                    $fileid = $this->create_postid();
+                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    values 
+                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+        
+                    $DB = new Database();
+                    $res = $DB->save($query);
+                }
+                else {
+                    $this->error = "Only the file types jpg, jpeg, png and mp4 are supported";                    
+                }                  
             }
         }   
 
-        $query = "update posts set post='$post' where postid = '$postid'";
+        $rowdata = $this->get_post_row($postid);
+        
+        if(empty($rowdata)) {
+            $query = "insert into posts (userid,memoryid,post,postid) 
+            values 
+            ('$userid','$memoryid','$post','$postid')";
     
-        $DB = new Database();
-        $result = $DB->save($query);
+            $DB = new Database();
+            $res = $DB->save($query);            
+        }
+        else {
+            $query = "update posts set post='$post' where postid = '$postid'";
+        
+            $DB = new Database();
+            $result = $DB->save($query);         
+        }
         
         return $this->error;
     } 
@@ -79,15 +103,21 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
-                $filename = strtolower($filename);
-                $filename = str_replace(" ", "_", $filename);                
-                $fileid = $this->create_postid();
-                $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
-                values 
-                ('$userid','$memoryid','$filename','$fileid','$postid')";
-    
-                $DB = new Database();
-                $res = $DB->save($query);
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                  
+                    $filename = strtolower($filename);
+                    $filename = str_replace(" ", "_", $filename);                
+                    $fileid = $this->create_postid();
+                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    values 
+                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+        
+                    $DB = new Database();
+                    $res = $DB->save($query);
+                }
+                else {
+                    $this->error = "Only the file types jpg, jpeg, png and mp4 are supported";                    
+                }                 
             }
         }   
         
@@ -98,12 +128,23 @@ class Post {
         
         $post = htmlspecialchars(addslashes($data['post']));
         
-        $query = "insert into posts (userid,memoryid,post,image,postid) 
-        values 
-        ('$userid','$memid','$post','$filename','$postid')";
-
-        $DB = new Database();
-        $res = $DB->save($query);
+        $rowdata = $this->get_post_row($postid);
+        
+        if(empty($rowdata)) {
+            $query = "insert into posts (userid,memoryid,post,postid) 
+            values 
+            ('$userid','$memoryid','$post','$postid')";
+    
+            $DB = new Database();
+            $res = $DB->save($query);            
+        }
+        else {
+            $query = "update posts set post='$post' where postid = '$postid'";
+        
+            $DB = new Database();
+            $result = $DB->save($query);         
+        }
+        
 
         return $this->error;
     }     
@@ -219,6 +260,21 @@ class Post {
     public function get_post($id) {
 
         $query = "select post from posts where postid = '$id'";
+
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }   
+    
+    public function get_post_row($id) {
+
+        $query = "select * from posts where postid = '$id'";
 
         $DB = new Database();
         $result = $DB->read($query);

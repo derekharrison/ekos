@@ -185,30 +185,16 @@
                                 $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                                 $pidl = $res2[$j]['fileid'];
                                 $useridl = $res2[$j]['userid'];
-                                if($ext == "jpg" || $ext== "jpeg") {
+                                if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                                     echo "<div  >";
                                     echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
-                                    if($useridl == $id) {
-                                        echo "<br><br><br>
-                                        <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
-                                            <div>
-                                                delete
-                                            </div>   
-                                        </a>  ";       
-                                    }
+
                                     echo "</div>";
                                 }
                                 else if($ext == "mp4") {  
                                     echo "<div style='text-decoration:none' >";
                                     echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
-                                    if($useridl == $id) {
-                                        echo "<br><br><br>
-                                        <a href='delete_file_edit_post.php?fileid=$pidl&postid=$postid' style='text-align:center; text-decoration:none; padding: 10px;'>       
-                                            <div>
-                                                delete
-                                            </div>   
-                                        </a>  ";                             
-                                    }
+ 
                                                
                                     echo "</div>";                            
                                 }      

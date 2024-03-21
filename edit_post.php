@@ -13,17 +13,18 @@ $user_data = $login->check_login($_SESSION['ekos_userid']);
 $memid = $_SESSION['funmem'];
 $id = $_SESSION['ekos_userid'];
 $postid = $_GET['myvariable'];
+
 if(!isset($_GET['myvariable'])) {
     $postid = $_SESSION['funpostid'];
 }
-$posttext = "";
+
+
 $postgblb = new Post();
 
-if($posttext == "") {
-    $valloc = $postgblb->get_post($postid);
-    $posttext = $valloc[0]['post'];
-}
+$valloc = $postgblb->get_post($postid);
+$posttext = $valloc[0]['post'];
 
+    
 // posting starts here
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -369,7 +370,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                 const fileChosen = document.getElementById('file-chosen');
                                 
                                 actualBtn.addEventListener('change', function(){
-                                  fileChosen.textContent = this.files[0].name
+                                  fileChosen.textContent = this.files.length + ' files selected'
                                   
                                 })                                    
                             </script>    

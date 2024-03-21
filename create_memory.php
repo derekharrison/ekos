@@ -11,13 +11,18 @@
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $id = $_SESSION['ekos_userid'];
-    $memorytitle = "";
-    $posttext = "";
+
     $memory = new Memory();
     $id = $_SESSION['ekos_userid'];
+    
     if($_SESSION['funmem'] == "") {
         $_SESSION['funmem'] = $memory->create_postid();
     }    
+    
+    $memid = $_SESSION['funmem'];
+    $rowdata = $memory->get_memory_row($memid);
+    $memorytitle = $rowdata[0]['title'];
+    $posttext = $rowdata[0]['text'];
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -285,12 +290,6 @@
         </div>
         <!-- cover area -->
         <div style="min-height: 400px;text-decoration:none"> 
-            <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
-                <img src="uploads/mountain.jpg" style="width: 100%">
-                <br>
-                    <div style="font-size: 30px"> Create Memory </div>
-                <br>                    
-            </div>
             <div class="grid-container" style="text-align:center;text-decoration:none;">
                 <?php 
                     $memory = new Memory();
@@ -358,8 +357,7 @@
                                 const fileChosen = document.getElementById('file-chosen');
                                 
                                 actualBtn.addEventListener('change', function(){
-                                  fileChosen.textContent = this.files[0].name
-                                  
+                                  fileChosen.textContent = this.files.length + ' files selected'
                                 });                                    
                             </script>   
                             <script>

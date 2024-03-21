@@ -11,20 +11,26 @@
     $login = new Login();
     $user_data = $login->check_login($_SESSION['ekos_userid']);
     $id = $_SESSION['ekos_userid'];
-    $memorytitle = "";
     $posttext = "";
+    
+
+    $postgb = new Post();
+    if(empty($_SESSION['funpost'])) {
+        $_SESSION['funpost'] = $postgb->create_postid();
+    }
+    $filename = "";
+    $result = "";
+        
+
+    $postid = $_SESSION['funpost'];
+    $rowdata = $postgb->get_post_row($postid);
+
+    $posttext = $rowdata[0]['post']; 
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
-        $postgb = new Post();
-        $id = $_SESSION['ekos_userid'];
-        if(empty($_SESSION['funpost'])) {
-            $_SESSION['funpost'] = $postgb->create_postid();
-        }
-        $filename = "";
-        $result = "";
-        
+
         if(isset($_POST['post_button'])) {
             
             $total = count($_FILES['upload']['name']);
@@ -283,12 +289,6 @@
         </div>
         <!-- cover area -->
         <div style="min-height: 400px;text-decoration:none"> 
-            <div style="background-color: #79c9f7; text-align: center; color: #405d9b"> 
-                <img src="uploads/mountain.jpg" style="width: 100%">
-                <br>
-                    <div style="font-size: 30px"> Comment </div>
-                <br>                    
-            </div>
             <div class="grid-container" style="text-align:center;text-decoration:none;">
                 <?php 
                     $post = new Post();
@@ -354,7 +354,7 @@
                                 const fileChosen = document.getElementById('file-chosen');
                                 
                                 actualBtn.addEventListener('change', function(){
-                                  fileChosen.textContent = this.files[0].name
+                                  fileChosen.textContent = this.files.length + ' files selected'
                                   
                                 })                                    
                             </script>  

@@ -31,7 +31,7 @@
                 while(isset($res2[$j])) {
                     $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                     $pidl = $res2[$j]['fileid'];
-                    if($ext == "jpg" || $ext== "jpeg") {
+                    if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
                         echo "<div  >";
                         echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                         echo "<br><br><br> ";                            

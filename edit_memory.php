@@ -371,7 +371,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                     const fileChosen = document.getElementById('file-chosen');
                                     
                                     actualBtn.addEventListener('change', function(){
-                                      fileChosen.textContent = this.files[0].name
+                                      fileChosen.textContent = this.files.length + ' files selected'
                                       
                                     })                                    
                                 </script>      
