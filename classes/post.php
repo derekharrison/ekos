@@ -110,7 +110,7 @@ class Post {
                     $fileid = $this->create_postid();
                     $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
                     values 
-                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+                    ('$userid','$memid','$filename','$fileid','$postid')";
         
                     $DB = new Database();
                     $res = $DB->save($query);
@@ -133,7 +133,7 @@ class Post {
         if(empty($rowdata)) {
             $query = "insert into posts (userid,memoryid,post,postid) 
             values 
-            ('$userid','$memoryid','$post','$postid')";
+            ('$userid','$memid','$post','$postid')";
     
             $DB = new Database();
             $res = $DB->save($query);            
@@ -301,6 +301,21 @@ class Post {
             return false;
         }
     }    
+    
+    public function get_post_text($id) {
+
+        $query = "select post from posts where postid = '$id'";
+
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    } 
     
     public function get_post_images($id) {
 

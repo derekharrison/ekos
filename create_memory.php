@@ -290,6 +290,12 @@
         </div>
         <!-- cover area -->
         <div style="min-height: 400px;text-decoration:none"> 
+            <!--<div style="background-color: #79c9f7; text-align: center; color: #405d9b"> -->
+            <!--    <img src="uploads/mountain.jpg" style="width: 100%">-->
+            <!--    <br>-->
+            <!--        <div style="font-size: 30px"> Create Memory </div>-->
+            <!--    <br>                    -->
+            <!--</div>-->
             <div class="grid-container" style="text-align:center;text-decoration:none;">
                 <?php 
                     $memory = new Memory();

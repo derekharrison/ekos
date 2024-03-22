@@ -126,6 +126,91 @@
            z-index: -1;
            font-size: 13px;
         } 
+        * {
+            box-sizing: border-box;
+          
+        }
+
+        .modal-container {
+            max-width: 100%;
+            min-height: 200px;
+            align-items: center;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            margin: 20px;
+        }
+
+        .modal-container-ext {
+            position: absolute;
+            max-width: 100%;
+            min-height: 200px;
+            align-items: center;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            margin: 20px;
+        }
+        
+        #bodstyle {
+            background-color: rgba(0,0,0,0.3); 
+            font-family: 'Poppins', 'sans-serif';
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #47a386;
+            border: 0;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            margin: 20px;
+        }
+
+        .modal {
+            background-color: #fff;
+            text-align: center;
+        
+            align-items: center;
+            justify-content: center;  
+            border-radius: 5px;      
+            padding: 20px;    
+        }
+        
+        .modal-ext {
+            background-color: #fff;
+            text-align: center;
+        
+            align-items: center;
+            justify-content: center;  
+            border-radius: 5px;      
+            padding: 20px;    
+        }        
+        
+        .modal-container.show {
+            pointer-events: auto;
+            opacity: 1;
+        }        
+        .modal-container-ext.show {
+            pointer-events: auto;
+            opacity: 1;
+        }         
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -142,7 +227,7 @@
                             $user = new User();
                             $row_user = $user->get_user($id);  
                             echo $row_user['profile_image'];            
-                        ?>"; style="width: 50px; float: right">
+                        ?>"; style="height: 50px; float: right">
                  </a>  
                 <a href="logout.php">
                     <span style="font-size:11px; float: right; margin: 10px;color: white"> Logout </span>
@@ -194,18 +279,39 @@
                             echo $row[0]['text'];
                         ?>
                     </div> <br><br><br> 
-                    <div style="text-align: center">
+                    <div>
                         <?php 
                             $memory = new Memory();
                             $val = $memory->get_memory($memid);
                             $arr = $memory->get_memory_row($memid);
                             if($arr[0]['userid'] == $id) {
-                                echo "
-                                <a href='delete_memory.php'>       
-                                    <div style='float: right; padding: 10px;'>
-                                        delete
-                                    </div>   
-                                </a>  ";
+                         
+                                echo "<div onclick='Geeks1()' style='float: right; text-align: right;cursor: pointer;color: blue; margin: 20px; max-height: 20px; max-width: 30px'>delete
+                                
+                                <div class='modal-container' id='modal_container'>
+                                    <button id='close' onclick='Geeks2()'>Cancel</button>
+                                    <button id='delete' onclick='Geeks3()'>Delete Memory</button>
+                                </div>
+                                <script>
+                                    function Geeks1() {
+                                        const modal_container = document.getElementById('modal_container');
+                                        modal_container.classList.add('show');        
+                                    }
+      
+                                    function Geeks2() {
+                                        const modal_container = document.getElementById('modal_container');
+                                        modal_container.classList.remove('show');  
+                                        location.href = 'memory.php'; 
+                                    }
+                       
+                                    function Geeks3() {
+                                        const modal_container = document.getElementById('modal_container');
+                                        modal_container.classList.remove('show');   
+                                        location.href = 'delete_memory.php'; 
+                                    }
+                                </script>                                
+                                ";
+                                echo "</div>";
                             }
                         ?>                         
                     </div>
@@ -217,17 +323,17 @@
                         if($arr[0]['userid'] == $id) {
                             echo "
                             <a href='edit_memory.php?memid=$memid'>       
-                                <div style='float: right; padding: 10px;'>
+                                <div style='float: right;margin: 20px;text-align: right'>
                                     edit
                                 </div>   
                             </a>  ";
                         }
                     ?>
           
-                    <br><br>
+                    <br><br><br><br>
                     <div style="padding: 10px; background-color: #79c9f7;">
                         <form method="post" enctype="multipart/form-data" >
-           
+                            <br><br><br>
                             <!---->
                             <div style="display: flex; justify-content: center">
                                 <a href="share_memory.php" id="post_button">

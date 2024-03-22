@@ -8,6 +8,7 @@
     }
 
 </style>
+<a href="comment.php?postid= <?php echo  $row['postid'] ?>" style="text-decoration: none">
 <div id="post" style="padding: 20px; background-color: white; border-radius: 10px;">
     <div>
         <img src="<?php echo $row_user['profile_image'] ?>" style="width: 75px; margin-right: 4px;">
@@ -51,39 +52,13 @@
             ?>                        
         </div> 
         <div>
-            <?php
-               $pidl = $row['postid'];
-               echo "
-               <a href='comment.php?postid=$pidl'>       
+     
                    <div style='float: left; padding: 10px;'>
                        reply
                    </div>   
-               </a>  ";
-            ?>
-            <?php
-                if($row['userid']== $id) {
-                    $pidl = $row['postid'];
-                    echo "
-                    <a href='delete_post.php?myvariable=$pidl'>       
-                        <div style='float: left; padding: 10px;'>
-                            delete
-                        </div>   
-                    </a>  ";
-                }
-            ?>                    
-            <?php 
-    
-                if($row['userid'] == $id) {
-                    
-                    $pidl = $row['postid'];
-                    echo "
-                    <a href='edit_post.php?myvariable=$pidl'>       
-                        <div style='float: left; padding: 10px;'>
-                            edit
-                        </div>   
-                    </a>  ";
-                }
-            ?>   
+         
+   
         </div>
     </div>
 </div>
+</a>

@@ -285,7 +285,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                             $user = new User();
                             $row_user = $user->get_user($id);  
                             echo $row_user['profile_image'];            
-                        ?>"; style="width: 50px; float: right">
+                        ?>"; style="height: 50px; float: right">
                  </a>  
                 <a href="logout.php">
                     <span style="font-size:11px; float: right; margin: 10px;color: white"> Logout </span>

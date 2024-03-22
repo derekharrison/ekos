@@ -149,6 +149,10 @@
         
         <!-- cover area -->
         <div style="margin:auto; min-height: 400px;"> 
+            <!--<div style="background-color: #79c9f7; text-align: center; color: #405d9b;height:200px"> -->
+            <!--    <img src="uploads/mountain.jpg" style="width: 100%">-->
+            <!--</div>-->
+            
             <!-- below cover area -->
             <div style="margin:auto; width: 800px; text-align: center"> 
                 <!-- posts area -->
