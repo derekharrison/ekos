@@ -24,6 +24,8 @@ if($posttext == "") {
     $posttext = $rowdata[0]['text'];
 }
     
+$batch_nr = 0;
+
 // posting starts here
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -31,7 +33,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = $_SESSION['ekos_userid'];
     $filename = "";
     $result = "";
-
+    $batch_nr = $memory->create_postid();
+    
     if(isset($_POST['post_button'])) {
         
         $total = count($_FILES['upload']['name']);
@@ -54,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }        
 
-        $result = $memory->update_memory($id, $_POST, $_SESSION['funmem'], $_FILES); 
+        $result = $memory->update_memory($id, $_POST, $_SESSION['funmem'], $_FILES, $batch_nr); 
         if($result == "") {
             header("Location: memory.php");
             die;
@@ -91,7 +94,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }        
 
-        $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
+        $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $batch_nr); 
 
         if($result == "") {
             // header("Location: create_memory.php");
@@ -272,6 +275,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         <br>
         <!-- top bar -->
         <div id="blue_bar">
+            <a href="edit_mem_red.php?batch_nr= <?php echo $batch_nr ?>" style="float: left; margin: 10px; color: white; text-decoration: none;">
+                <img style="max-height: 50px;" src="uploads/back_bitmap.png">
+            </a>             
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
                     <span>ekos</span>
@@ -295,8 +301,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         <div style="text-align:center;">
             <?php
                 $memory = new Memory();
-                $row = $memory->get_memory_row($memid);
-                echo $row[0]['title'];
+                $row = $memory->get_memory_row_buffer($memid);
+                $memorytitle = $row[0]['title'];
+                if(empty($memorytitle)) {
+                    $memory = new Memory();
+                    $row = $memory->get_memory_row($memid);
+                    $memorytitle = $row[0]['title'];                    
+                }
+                echo $memorytitle;
             ?>
         </div> <br><br><br>         
         <div class="grid-container" style="text-align:center;">
@@ -306,6 +318,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 $val = $memory->get_memory($memid);
                 $res = $memory->get_memory_image($memid);
                 $res2 = $memory->get_memory_images($memid);
+                
                 $j = 0;
                 while(isset($res2[$j])) {
                     $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
@@ -335,7 +348,36 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                     $j++;
                 }
 
-
+                $res2 = $memory->get_memory_files_buffer($memid);
+                $j = 0;
+                while(isset($res2[$j])) {
+                    $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                    $pidl = $res2[$j]['fileid'];
+                    if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
+                        echo "<div  >";
+                        echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                        echo "<br><br><br>
+                            <a href='delete_file_edit_buff.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";                            
+                        echo "</div>";
+                    }
+                    else if($ext == "mp4") {  
+                        echo "<div style='text-decoration:none' >";
+                        echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                        echo "<br><br><br>
+                            <a href='delete_file_edit_buff.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                <div>
+                                    delete
+                                </div>   
+                            </a>  ";                            
+                        echo "</div>";                            
+                    }      
+                    $j++;
+                }
+                
                 echo "<br><br><br>";
 
             ?>                        
@@ -343,8 +385,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         <div style="text-align:center;">
             <?php
                 $memory = new Memory();
-                $row = $memory->get_memory_row($memid);
-                echo $row[0]['text'];
+                $row = $memory->get_memory_row_buffer($memid);
+                $posttext = $row[0]['text'];
+                if(empty($posttext)) {
+                    $memory = new Memory();
+                    $row = $memory->get_memory_row($memid);
+                    $posttext = $row[0]['text'];                    
+                }                
+                echo $posttext;
             ?>
         </div> <br><br><br>         
         <!-- cover area -->

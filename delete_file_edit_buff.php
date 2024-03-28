@@ -21,7 +21,7 @@ $query = "delete from memoryfiles_buffer where fileid = '$fileid'";
 $DB = new Database();
 $result = $DB->save($query);
 
-header("Location: create_memory.php");
+header("Location: edit_memory.php");
 // die;
 
 ?>

@@ -19,6 +19,22 @@
     $_SESSION['funpostid'] = "";
     $memories = $memory->get_memories();
     
+    $query = "delete from memories_buffer where userid='$id'";
+    
+    $DB = new Database();
+    $result = $DB->save($query);   
+    
+    $query = "delete from memoryfiles_buffer where userid='$id'";
+    
+    $result = $DB->save($query);   
+    
+    $query = "delete from posts_buffer where userid='$id'";
+    
+    $result = $DB->save($query); 
+    
+    $query = "delete from postfiles_buffer where userid='$id'";
+    
+    $result = $DB->save($query);     
 ?>
 
 <!DOCTYPE html>
@@ -120,6 +136,14 @@
             grid-gap: 20px;
         }
 
+        .grid-container2 {
+            display: grid;
+            grid-template-columns: auto auto;
+            background-color: #d0d8e4;
+            padding: 2px;
+            grid-gap: 5px;
+        }
+        
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">

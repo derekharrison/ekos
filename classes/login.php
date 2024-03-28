@@ -7,8 +7,8 @@ class Login {
     public function evaluate($data) {
 
 
-        $email = addslashes($data['email']);
-        $password = addslashes($data['password']);
+        $email = htmlspecialchars(addslashes($data['email']));
+        $password = hash("sha256",htmlspecialchars(addslashes($data['password'])));
 
         $query = "select * from users where email = '$email' limit 1";
 

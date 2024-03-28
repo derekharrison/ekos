@@ -27,18 +27,18 @@
                 $post = new Post();
                 $memid = $_SESSION['funmem'];
                 $postid = $row['postid'];
-                $res2 = $post->get_post_images($postid);
+                $res2 = $post->get_post_images2($postid);
                 $j = 0;
-                while(isset($res2[$j])) {
+                while(isset($res2[$j]) && $j < 6) {
                     $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
                     $pidl = $res2[$j]['fileid'];
-                    if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
+                    if(($ext == "jpg" || $ext== "jpeg" || $ext == "png") && $j < 5) {
                         echo "<div  >";
                         echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
                         echo "<br><br><br> ";                            
                         echo "</div>";
                     }
-                    else if($ext == "mp4") {  
+                    else if($ext == "mp4" && $j < 5) {  
                         echo "<div style='text-decoration:none' >";
                         echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
                         echo "<br><br><br> ";                            
@@ -46,18 +46,32 @@
                     }      
                     $j++;
                 }
-
+                if($j >= 6) {
+                    echo "<img style='width:100%;border-radius:16px' src=" . "uploads/plus2-bitmap.png" . " >";                       
+                }
                 echo "<br><br><br>";
 
             ?>                        
         </div> 
         <div>
      
-                   <div style='float: left; padding: 10px;'>
-                       reply
-                   </div>   
+           <div style='float: left; padding: 10px;'>
+               reply
+           </div>   
          
-   
+           <?php 
+
+            if($row['userid'] == $id) {
+                
+                $pidl = $row['postid'];
+                echo "
+                <a href='edit_post.php?myvariable=$pidl'>       
+                    <div style='float: left; padding: 10px;'>
+                        edit
+                    </div>   
+                </a>  ";
+            }
+        ?>  
         </div>
     </div>
 </div>

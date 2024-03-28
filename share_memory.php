@@ -23,14 +23,17 @@
         
 
     $postid = $_SESSION['funpost'];
-    $rowdata = $postgb->get_post_row($postid);
+    $rowdata = $postgb->get_post_row_buffer($postid);
 
     $posttext = $rowdata[0]['post']; 
+    
+    $batch_nr = 0;
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
-
+        $batch_nr = $postgb->create_postid();
+        
         if(isset($_POST['post_button'])) {
             
             $total = count($_FILES['upload']['name']);
@@ -52,7 +55,7 @@
                 }
             }        
             
-            $result = $postgb->create_post2($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost']); 
+            $result = $postgb->create_post2($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost'], $batch_nr); 
             if($result == "") {
                 $_SESSION['funpost'] = "";
                 header("Location: memory.php");
@@ -69,8 +72,7 @@
         if(isset($_POST['add_button'])) {
             $total = count($_FILES['upload']['name']);
             $post = htmlspecialchars(addslashes($_POST['post']));
-            $title = htmlspecialchars(addslashes($_POST['title']));
-            $memorytitle = $title;
+    
             $posttext = $post;
             // Loop through each file
             for( $i=0 ; $i < $total ; $i++ ) {
@@ -89,7 +91,7 @@
                     move_uploaded_file($tmpFilePath, $newFilePath);                
                 }
             }        
-            $result = $postgb->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost']); 
+            $result = $postgb->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $_SESSION['funpost'], $batch_nr); 
             if($result == "") {
                 // header("Location: share_memory.php");
                 // die;                
@@ -103,6 +105,7 @@
         }
 
     }
+    
 ?>
 
 <!DOCTYPE html>
@@ -267,6 +270,9 @@
         <br>
         <!-- top bar -->
         <div id="blue_bar">
+            <a href="share_mem_red.php?postid= <?php echo $postid ?>" style="float: left; margin: 10px; color: white; text-decoration: none;">
+                <img style="max-height: 50px;" src="uploads/back_bitmap.png">
+            </a>             
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none;">
                     <span>ekos</span>
@@ -335,11 +341,47 @@
                         $j++;
                     }
 
+
+                    $res2 = $post->get_post_files_buffer($postid);
+                    $j = 0;
+                    while(isset($res2[$j])) {
+                        $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
+                        $pidl = $res2[$j]['fileid'];
+                        $useridl = $res2[$j]['userid'];
+                        if($ext == "jpg" || $ext== "jpeg" || $ext == "png") {
+                            echo "<div  >";
+                            echo "<img style='width:75%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . " >";
+                            if($useridl == $id) {
+                                echo "<br><br><br>
+                                <a href='delete_post_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                    <div>
+                                        delete
+                                    </div>   
+                                </a>  ";         
+                            }
+                            echo "</div>";
+                        }
+                        else if($ext == "mp4") {  
+                            echo "<div style='text-decoration:none' >";
+                            echo "<video controls style='width:80%;border-radius:16px' src=" . "uploads/" . $res2[$j]['media'] . ">" . "Play video" . "</video>";  
+                            if($useridl == $id) {
+                                echo "<br><br><br>
+                                <a href='delete_post_file.php?fileid=$pidl' style='text-align:center; text-decoration:none; padding: 10px;'>       
+                                    <div>
+                                        delete
+                                    </div>   
+                                </a>  ";     
+                            }
+                            echo "</div>";                            
+                        }      
+                        $j++;
+                    }
+                    
                     echo "<br><br><br>";
 
                 ?>                        
             </div>              
-   
+ 
             <!-- below cover area -->
             <div style="width: 600px; margin:auto;text-align: center"> 
                 <!-- posts area -->

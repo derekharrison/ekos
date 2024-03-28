@@ -143,6 +143,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         <br>
         <!-- top bar -->
         <div id="blue_bar">
+            <a href="comment.php?postid= <?php echo $postid ?>" style="float: left; margin: 10px; color: white; text-decoration: none;">
+                <img style="max-height: 50px;" src="uploads/back_bitmap.png">
+            </a>                
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
                     <span>ekos</span>

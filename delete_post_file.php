@@ -17,7 +17,7 @@ $fileid = $_GET['fileid'];
 
 $res = false;
 
-$query = "delete from postfiles where fileid = '$fileid'";
+$query = "delete from postfiles_buffer where fileid = '$fileid'";
 
 $DB = new Database();
 $result = $DB->save($query);

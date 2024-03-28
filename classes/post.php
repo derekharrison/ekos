@@ -6,7 +6,7 @@ class Post {
 
     private $error = "";
     
-    public function update_post($userid, $data, $memoryid, $files, $postid) {
+    public function update_post($userid, $data, $memoryid, $files, $postid, $batch_nr) {
         
         
         $total = count($files['upload']['name']);
@@ -15,14 +15,15 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                 
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                   
-                    $filename = strtolower($filename);
-                    $filename = str_replace(" ", "_", $filename);                
+               
                     $fileid = $this->create_postid();
-                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid,batch_nr) 
                     values 
-                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+                    ('$userid','$memoryid','$filename','$fileid','$postid','$batch_nr')";
         
                     $DB = new Database();
                     $res = $DB->save($query);
@@ -40,6 +41,42 @@ class Post {
         
         $post = htmlspecialchars(addslashes($data['post']));
         
+        $rowdata = $this->get_post_row($postid);
+        
+        $query_lc = "select * from postfiles_buffer where postid = '$postid'";
+        $DBL = new Database();
+        $res1 = $DBL->read($query_lc);
+        $query_lc = "delete from postfiles_buffer where postid = '$postid'";
+        $res2 = $DBL->save($query_lc);
+        
+        $j = 0;
+        
+        while(isset($res1[$j])){
+            $media = $res1[$j]['media'];
+            $fileid = $res1[$j]['fileid'];
+            $batch_nr = $res1[$j]['batch_nr'];
+            $query = "insert into postfiles (userid,memoryid,media,fileid,batch_nr,postid) 
+            values 
+            ('$userid','$memoryid','$media','$fileid','$batch_nr','$postid')";
+
+            $DB = new Database();
+            $res = $DB->save($query); 
+            $j++;
+        }
+        
+        $query_lc = "select * from posts_buffer where postid = '$postid'";
+        $DBL = new Database();
+        $res1 = $DBL->read($query_lc);
+        $query_lc = "delete from posts_buffer where postid = '$postid'";
+        $res2 = $DBL->save($query_lc);
+        
+        if(empty($post)) {
+            $post = $res1[0]['post'];
+        }
+       
+        $filename = $res1[0]['image'];  
+        
+                
         $query = "update posts set post='$post' where postid = '$postid'";
     
         $DB = new Database();
@@ -48,7 +85,7 @@ class Post {
         return $this->error;
     } 
     
-    public function add_files($userid, $data, $memoryid, $files, $postid) {
+    public function add_files($userid, $data, $memoryid, $files, $postid, $batch_nr) {
         
         $total = count($files['upload']['name']);
         $post = htmlspecialchars(addslashes($data['post']));
@@ -57,14 +94,15 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                  
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                 
-                    $filename = strtolower($filename);
-                    $filename = str_replace(" ", "_", $filename);                
+              
                     $fileid = $this->create_postid();
-                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    $query = "insert into postfiles_buffer (userid,memoryid,media,fileid,postid,batch_nr) 
                     values 
-                    ('$userid','$memoryid','$filename','$fileid','$postid')";
+                    ('$userid','$memoryid','$filename','$fileid','$postid', '$batch_nr')";
         
                     $DB = new Database();
                     $res = $DB->save($query);
@@ -74,28 +112,27 @@ class Post {
                 }                  
             }
         }   
-
-        $rowdata = $this->get_post_row($postid);
         
-        if(empty($rowdata)) {
-            $query = "insert into posts (userid,memoryid,post,postid) 
+        $vall = $this->get_post_row_buffer($postid);
+        
+        if(empty($vall)) {
+            $query = "insert into posts_buffer (userid,memoryid,post,postid) 
             values 
             ('$userid','$memoryid','$post','$postid')";
     
             $DB = new Database();
-            $res = $DB->save($query);            
+            $res = $DB->save($query);  
         }
         else {
-            $query = "update posts set post='$post' where postid = '$postid'";
-        
+            $query = "update posts_buffer set post='$post' where postid = '$postid'";
             $DB = new Database();
-            $result = $DB->save($query);         
+            $res = $DB->save($query);             
         }
         
         return $this->error;
     } 
     
-    public function create_post2($userid, $data, $memid, $files, $postid) {
+    public function create_post2($userid, $data, $memid, $files, $postid, $batch_nr) {
         
         $total = count($files['upload']['name']);
         
@@ -103,14 +140,14 @@ class Post {
         for( $i = 0 ; $i < $total ; $i++ ) {
             $filename = $files['upload']['name'][$i];
             if($filename != "") {
+                $filename = strtolower($filename);
+                $filename = str_replace(" ", "_", $filename);                  
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 if($ext == "jpg" || $ext== "jpeg" || $ext == "png" || $ext == "mp4") {                  
-                    $filename = strtolower($filename);
-                    $filename = str_replace(" ", "_", $filename);                
                     $fileid = $this->create_postid();
-                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid) 
+                    $query = "insert into postfiles (userid,memoryid,media,fileid,postid,batch_nr) 
                     values 
-                    ('$userid','$memid','$filename','$fileid','$postid')";
+                    ('$userid','$memid','$filename','$fileid','$postid','$batch_nr')";
         
                     $DB = new Database();
                     $res = $DB->save($query);
@@ -130,20 +167,46 @@ class Post {
         
         $rowdata = $this->get_post_row($postid);
         
-        if(empty($rowdata)) {
-            $query = "insert into posts (userid,memoryid,post,postid) 
-            values 
-            ('$userid','$memid','$post','$postid')";
-    
-            $DB = new Database();
-            $res = $DB->save($query);            
-        }
-        else {
-            $query = "update posts set post='$post' where postid = '$postid'";
+        $query_lc = "select * from postfiles_buffer where postid = '$postid'";
+        $DBL = new Database();
+        $res1 = $DBL->read($query_lc);
+        $query_lc = "delete from postfiles_buffer where postid = '$postid'";
+        $res2 = $DBL->save($query_lc);
         
+        $j = 0;
+        
+        while(isset($res1[$j])){
+            $media = $res1[$j]['media'];
+            $fileid = $res1[$j]['fileid'];
+            $batch_nr = $res1[$j]['batch_nr'];
+            $query = "insert into postfiles (userid,memoryid,media,fileid,batch_nr,postid) 
+            values 
+            ('$userid','$memid','$media','$fileid','$batch_nr','$postid')";
+
             $DB = new Database();
-            $result = $DB->save($query);         
+            $res = $DB->save($query); 
+            $j++;
         }
+        
+        $query_lc = "select * from posts_buffer where postid = '$postid'";
+        $DBL = new Database();
+        $res1 = $DBL->read($query_lc);
+        $query_lc = "delete from posts_buffer where postid = '$postid'";
+        $res2 = $DBL->save($query_lc);
+        
+        if(empty($post)) {
+            $post = $res1[0]['post'];
+        }
+       
+        $filename = $res1[0]['image'];  
+        
+        
+        $query = "insert into posts (userid,memoryid,post,image,postid) 
+        values 
+        ('$userid','$memid','$post','$filename','$postid')";
+
+        $DB = new Database();
+        $res = $DB->save($query); 
         
 
         return $this->error;
@@ -169,7 +232,6 @@ class Post {
             }
        
             $post = htmlspecialchars(addslashes($data['post']));
-            // $postid = $this->create_postid();
 
             $query = "insert into posts (postid,userid,post,memoryid,image,has_image) 
             values 
@@ -178,9 +240,7 @@ class Post {
             $DB = new Database();
             $res = $DB->save($query);
         }
-        // else {
-        //     $this->error .= "Please type something to post. <br>";
-        // }
+
 
         return $this->error;
     } 
@@ -227,6 +287,22 @@ class Post {
         }
     }   
 
+    public function delete_batch($batch_nr) {
+
+        $query = "delete from postfiles where batch_nr = '$batch_nr'";
+
+        $DB = new Database();
+        $result = $DB->save($query);
+      
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    } 
+    
     public function delete_posts($id) {
 
         $res = false;
@@ -287,6 +363,21 @@ class Post {
         }
     }   
     
+    public function get_post_row_buffer($id) {
+
+        $query = "select * from posts_buffer where postid = '$id'";
+
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    } 
+    
     public function get_post_image($id) {
 
         $query = "select image from posts where postid = '$id'";
@@ -330,5 +421,34 @@ class Post {
             return false;
         }
     }     
+    
+    public function get_post_images2($id) {
+
+        $query = "select * from postfiles where postid = '$id' limit 6";
+
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }      
         
+    public function get_post_files_buffer($id) {
+
+        $query = "select * from postfiles_buffer where postid = '$id'";
+
+        $DB = new Database();
+        $result = $DB->read($query);
+
+        if($result) {
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }           
 }

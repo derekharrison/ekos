@@ -1,5 +1,5 @@
 <?php
-    ini_set('session.save_path', 'session');
+    ini_set('session.save_path', '/home3/daufzimy/public_html/session');
     session_start();
     
     include("classes/connect.php");
@@ -33,7 +33,6 @@
 <html> 
     <head>  
         <title> ekos | log in</title>
-        <link rel="icon" type="image/x-icon" href="uploads/charlie-brown-pp.jpg">
     </head>
     <style>
         #bar{

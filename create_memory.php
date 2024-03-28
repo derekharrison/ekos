@@ -20,9 +20,11 @@
     }    
     
     $memid = $_SESSION['funmem'];
-    $rowdata = $memory->get_memory_row($memid);
-    $memorytitle = $rowdata[0]['title'];
-    $posttext = $rowdata[0]['text'];
+
+    $rowdata = $memory->get_memory_row_buffer($memid);
+
+    $posttext = $rowdata[0]['text']; 
+    $memorytitle = $rowdata[0]['title']; 
     
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -30,7 +32,7 @@
 
         $filename = "";
         $result = "";
-        
+        $batch_nr = $memory->create_postid();
         if(isset($_POST['post_button'])) {
             
             $total = count($_FILES['upload']['name']);
@@ -54,7 +56,7 @@
                 }
             }        
     
-            $result = $memory->create_memory($id, $_POST, $_SESSION['funmem'], $_FILES); 
+            $result = $memory->create_memory($id, $_POST, $_SESSION['funmem'], $_FILES, $batch_nr); 
             if($result == "") {
                 header("Location: memory.php");
                 die;
@@ -90,7 +92,7 @@
                 }
             }        
     
-            $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES); 
+            $result = $memory->add_files($id, $_POST, $_SESSION['funmem'], $_FILES, $batch_nr); 
             if($result == "") {
                 // header("Location: create_memory.php");
                 // die;                
@@ -268,10 +270,14 @@
         <br>
         <!-- top bar -->
         <div id="blue_bar">
-            <div style="width: 800px; margin: auto; font-size: 30px;">
+            <a href="memoriesred.php?memid= <?php echo $memid ?>" style="float: left; margin: 10px; color: white; text-decoration: none;">
+                <img style="max-height: 50px;" src="uploads/back_bitmap.png">
+            </a>            
+            <div style="width: 800px; margin: auto; font-size: 30px">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none;">
                     <span>ekos</span>
                 </a>
+               
                 <a href="profile.php">
                     <img src="
                         <?php
@@ -290,19 +296,14 @@
         </div>
         <!-- cover area -->
         <div style="min-height: 400px;text-decoration:none"> 
-            <!--<div style="background-color: #79c9f7; text-align: center; color: #405d9b"> -->
-            <!--    <img src="uploads/mountain.jpg" style="width: 100%">-->
-            <!--    <br>-->
-            <!--        <div style="font-size: 30px"> Create Memory </div>-->
-            <!--    <br>                    -->
-            <!--</div>-->
             <div class="grid-container" style="text-align:center;text-decoration:none;">
                 <?php 
                     $memory = new Memory();
                     $memid = $_SESSION['funmem'];
                     $val = $memory->get_memory($memid);
                     $res = $memory->get_memory_image($memid);
-                    $res2 = $memory->get_memory_images($memid);
+                    $res2 = $memory->get_memory_files_buffer($memid);
+        // $res2 = $memory->get_memory_images($memid);
                     $j = 0;
                     while(isset($res2[$j])) {
                         $ext = pathinfo($res2[$j]['media'], PATHINFO_EXTENSION);
@@ -341,7 +342,7 @@
 
                 ?>                        
             </div>              
-   
+  
             <!-- below cover area -->
             <div style="width: 600px; margin:auto;text-align: center"> 
                 <!-- posts area -->

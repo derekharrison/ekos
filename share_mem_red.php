@@ -10,18 +10,13 @@ include("classes/memory.php");
 
 $login = new Login();
 $user_data = $login->check_login($_SESSION['ekos_userid']);
-$memid = $_SESSION['funmem'];
-$id = $_SESSION['ekos_userid'];
-$fileid = $_GET['fileid'];
 
-$res = false;
+$postid = $_GET['postid'];
 
-$query = "delete from memoryfiles_buffer where fileid = '$fileid'";
+$post = new Post();
+$arr = $post->delete_posts($postid);
 
-$DB = new Database();
-$result = $DB->save($query);
-
-header("Location: create_memory.php");
-// die;
+header("Location: memory.php");
+die;
 
 ?>

@@ -70,7 +70,7 @@
 
             $mail->send();
             
-            header("Location: index.php");
+            header("Location: reset_page.php?email=$val");
             die;     
             
         } catch (Exception $e) {
@@ -139,7 +139,7 @@
     <body style="font-family: tahoma; 
                 background-color: #79c9f7;">  
         <div id="bar"> 
-            <div style="font-size: 40px;"> Ekos </div>
+            <div style="font-size: 40px;"> ekos </div>
             
             <a href="index.php" style="text-decoration: none; background-color: #3c5a99; color: white;cursor: pointer;font-family: tahoma">
                 <div id="signup_button"> 

@@ -32,6 +32,15 @@
     }
     $comment = new Comment();
     $comments = $comment->get_commentsbyid($postid);
+    
+    $query = "delete from posts_buffer where userid='$id'";
+    
+    $DB = new Database();
+    $result = $DB->save($query); 
+    
+    $query = "delete from postfiles_buffer where userid='$id'";
+    
+    $result = $DB->save($query);        
 ?>
 
 <!DOCTYPE html>
@@ -231,6 +240,9 @@
         <br>
         <!-- top bar -->
         <div id="blue_bar">
+            <a href="memory.php" style="float: left; margin: 10px; color: white; text-decoration: none;">
+                <img style="max-height: 50px;" src="uploads/back_bitmap.png">
+            </a>                
             <div style="width: 800px; margin: auto; font-size: 30px;">
                 <a href="memories.php" style="float: left; margin: 10px; color: white; text-decoration: none">
                     <span>ekos</span>

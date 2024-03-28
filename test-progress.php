@@ -3,20 +3,13 @@
 ini_set('session.save_path', 'session');
 session_start();
 
-    
-    // echo "hello?" . "<br>";
-    // print_r($_POST);echo "_____<br>";
-    // print_r($_FILES);
-    
+ 
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
         echo "in post<br>";
         $files_length = $_POST['files_length'];
-        
-        // print_r($_POST);echo "_____<br>";
-        // print_r($_FILES);
-        // die;
+
         for($i = 0; $i < $files_length; $i++) {
         
             $file = $_FILES['file'.$i];
@@ -28,8 +21,6 @@ session_start();
             $targetPath = 'uploads/'.$filename;
             move_uploaded_file($file['tmp_name'], $targetPath);
             
-            // die
-            // header("Location: test-progress.php");
         }
     }
 ?>

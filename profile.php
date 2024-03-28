@@ -13,6 +13,28 @@
     $image_name = "";
     $_SESSION['memid'] = "";
     
+    $first_name_gbl = $user_data['first_name'];
+    $last_name_gbl = $user_data['last_name'];
+    $email_gbl = $user_data['email'];
+    $image_name_gbl = $user_data['profile_image'];
+    
+    $query = "delete from memories_buffer where userid='$id'";
+    
+    $DB = new Database();
+    $result = $DB->save($query);   
+    
+    $query = "delete from memoryfiles_buffer where userid='$id'";
+    
+    $result = $DB->save($query);   
+    
+    $query = "delete from posts_buffer where userid='$id'";
+    
+    $result = $DB->save($query); 
+    
+    $query = "delete from postfiles_buffer where userid='$id'";
+    
+    $result = $DB->save($query);  
+    
     // posting starts here
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         
@@ -33,8 +55,7 @@
                         $DB = new Database();
                         $DB->save($query);
         
-                        header("Location: profile.php");
-                        die;
+
                     }
                 }
             }
@@ -45,51 +66,50 @@
                 echo "</div>";                
             }
         }
-    }
+        
+        // print_r($_POST); echo "<br>"; print_r($_POST['first_name']);
+    
+        if(isset($_POST['last_name'])) {
+            $userid = $user_data['userid'];
+            $last_name = htmlspecialchars(addslashes($_POST['last_name']));
+            $query = "update users set last_name = '$last_name' where userid = '$userid' limit 1";
 
-    if(isset($_POST['first_name'])) {
-        $userid = $user_data['userid'];
-        $first_name = htmlspecialchars(addslashes($_POST['first_name']));
-        $query = "update users set first_name = '$first_name' where userid = '$userid' limit 1";
-
-        $DB = new Database();
-        $DB->save($query);
-
+            $DB = new Database();
+            $DB->save($query);
+     
+        }      
+        
+        if(isset($_POST['first_name'])) {
+            $userid = $user_data['userid'];
+            $first_name = htmlspecialchars(addslashes($_POST['first_name']));
+            $query = "update users set first_name = '$first_name' where userid = '$userid' limit 1";
+            
+            $DB = new Database();
+            $DB->save($query);
+      
+        }     
+            
+        if(isset($_POST['email'])) {
+            $userid = $user_data['userid'];
+            $email = htmlspecialchars(addslashes($_POST['email']));
+            $query = "update users set email = '$email' where userid = '$userid' limit 1";
+    
+            $DB = new Database();
+            $DB->save($query);
+     
+        }
+        if(isset($_POST['password'])) {
+            $userid = $user_data['userid'];
+            $password = hash("sha256", htmlspecialchars(addslashes($_POST['password'])));
+            $query = "update users set password = '$password' where userid = '$userid' limit 1";
+    
+            $DB = new Database();
+            $DB->save($query);
+      
+        }   
+        
         header("Location: profile.php");
-        die;       
-    }
-    if(isset($_POST['last_name'])) {
-        $userid = $user_data['userid'];
-        $last_name = htmlspecialchars(addslashes($_POST['last_name']));
-        $query = "update users set last_name = '$last_name' where userid = '$userid' limit 1";
-
-        $DB = new Database();
-        $DB->save($query);
-
-        header("Location: profile.php");
-        die;       
-    }
-    if(isset($_POST['email'])) {
-        $userid = $user_data['userid'];
-        $email = htmlspecialchars(addslashes($_POST['email']));
-        $query = "update users set email = '$email' where userid = '$userid' limit 1";
-
-        $DB = new Database();
-        $DB->save($query);
-
-        header("Location: profile.php");
-        die;       
-    }
-    if(isset($_POST['password'])) {
-        $userid = $user_data['userid'];
-        $password = hash("sha256", htmlspecialchars(addslashes($_POST['password'])));
-        $query = "update users set password = '$password' where userid = '$userid' limit 1";
-
-        $DB = new Database();
-        $DB->save($query);
-
-        header("Location: profile.php");
-        die;       
+        die;  
     }
 ?>
 
@@ -198,6 +218,54 @@
            z-index: -1;
            font-size: 13px;
         }
+        #dummy{
+           opacity: 0;
+           position: absolute;
+           z-index: -1;  
+           font-size: 13px;
+           float: left;
+           padding-right: 20px;
+        }
+        .container{
+            width: 400px;
+            margin: auto;
+            padding: 30px;
+            transform: scale(1.4);
+            margin-top: 50px;
+        }
+        .percent{
+            float: right;
+            margin-top: 2px;
+        }
+        .progress-bar{
+            width: 100%;
+            height: 6px;
+            margin-top: 30px;
+            background-color: rgb(231,231,231);
+        }
+        .progress-bar span{
+            height: 100%;
+            width: 0%;
+            display: block;
+            background-color: green;
+            transition-duration: .2s;
+        }     
+        
+        #text{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+            width: 100%;
+        }
+        #text2{
+            border-radius: 4px;
+            border:solid 1px #888;
+            padding: 4px;
+            font-size: 14px;
+            width: 100%;
+            height: 20px;
+        }         
     </style>
 
     <body style="font-family: tahoma; background-color: #79c9f7">
@@ -252,10 +320,16 @@
                         <div style="text-align:left; width:500px"> 
                     
                             <form method="post" enctype="multipart/form-data" action="" style="padding-top:10px" >
+                                
+                                <textarea name="first_name" placeholder="First Name" id="text2" style="max-height: 25px; min-height: 25px"><?php echo $first_name_gbl ?></textarea><br><br>                            
+                                <textarea name="last_name" placeholder="Last Name" id="text2" style="max-height: 25px; min-height: 25px"><?php echo $last_name_gbl ?></textarea><br><br>  
+                                <textarea name="email" placeholder="Email" id="text2" style="max-height: 25px; min-height: 25px"><?php echo $email_gbl ?></textarea><br><br> 
+                                <textarea name="profile_pic" placeholder="Profile Picture" id="text2" style="max-height: 25px; min-height: 25px"><?php echo $image_name_gbl ?></textarea><br><br> 
+                                                                 
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:4px; font-size:15px;">
                                     <label for="upload-photo" style="border:solid thin #aaa; padding: 4px;background-color: grey; color:white; border-radius: 8px">Select profile picture</label>
                                     <input type="file" name="file" id="upload-photo" />
-                                    <input id="post_button" type="submit" value="Update">
+                                    
                                     <span id="file-chosen"></span>
                                     <script>
                                         const actualBtn = document.getElementById('upload-photo');
@@ -266,50 +340,24 @@
                                           fileChosen.textContent = this.files[0].name
                                           
                                         })                                    
-                                    </script>                                    
-                                    <br>
+                                    </script>            
                                 </div>
-                            </form>
-                            <form method="post" action="">
-                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
-    
-                                    <input name="first_name" type="text"; id="text"; placeholder="First Name">                            
-                                    <input id="post_button" type="submit" value="Update">
-                               
-                                </div>
-                            </form> 
-                            <form method="post" action="">
-                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
-        
-                                    <input name="last_name" type="text"; id="text"; placeholder="Last Name">                            
-                                    <input id="post_button" type="submit" value="Update">
-                                  
-                                </div>
-                            </form> 
-                            <form method="post" action="">
-                                <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
-                                   
-                                    <input name="email" type="text"; id="text"; placeholder="Email">                            
-                                    <input id="post_button" type="submit" value="Update">
-                                    <br>
-                                </div>
-                            </form> 
+                                <input id="post_button" type="submit" value="Update">
+                            </form><br><br>
+                            
                             <form method="post" action="">
                                 <div style="padding: 10px; background-color: #79c9f7;border-radius:8px">
                                  
-                                    <input name="password" type="password"; id="text"; placeholder="Password">                            
-                                    <input id="post_button" type="submit" value="Update">
+                                    <input name="password" type="password"; id="text2"; placeholder="Password"><br><br>                          
+                                    <input id="post_button" type="submit" value="Update Password">
                                     <br>
                                 </div>
-                            </form> 
-                            
-                            <br>
+                            </form>                             
                         </div>                                                               
                     </div>
-
                 </div>
             </div>
-        </div>
+        </div>Z
     </body>
 
 </html>
